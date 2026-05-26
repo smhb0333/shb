@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miss Rose — Luxury Perfumes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Your Selection</h2>
+    <button class="cart-close" onclick="closeCart()" aria-label="Close Cart">×</button>
+  </div>
+  <div class="cart-items-container">
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        Your cart is empty.<br>
+        <span class="discover-scents">— discover our scents —</span>
+      </div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">Rs. 0</span>
+    </div>
+    <button class="btn-checkout" onclick="checkoutWhatsApp()">
+      Order via WhatsApp
+    </button>
+    <button class="btn-checkout-wa" onclick="checkoutWhatsApp()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chat to Order
+    </button>
+  </div>
+</div>
+
+<nav>
+  <a href="#" class="nav-logo">Miss <span>Rose</span></a>
+  <ul class="nav-links">
+    <li><a href="#products">Collection</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#order">Order</a></li>
+  </ul>
+  <div class="nav-cart" onclick="openCart()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span>Cart</span>
+    <span class="cart-count" id="cartCount" style="display:none">0</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-ornament">Rose</div>
+  
+  <div class="hero-container">
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Luxury Fragrances — Pakistan</p>
+      <h1 class="hero-title">
+        <em>Wear</em> your<br>
+        <span class="gold-word">Passion.</span><br>
+        Own your<br>
+        <em>Scent.</em>
+      </h1>
+      <p class="hero-desc">
+        Four signature fragrances crafted for the woman who refuses to be forgotten. Bold. Sensual. Unforgettable.
+      </p>
+      <div class="hero-ctas">
+        <a href="#products" class="btn-primary">Shop Collection</a>
+        <a href="#order" class="btn-ghost">Order via WhatsApp →</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-bottle">
+        <svg class="bottle-svg" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bottleGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1a0c14"/>
+              <stop offset="50%" stop-color="#2a1020"/>
+              <stop offset="100%" stop-color="#0d0709"/>
+            </linearGradient>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#c9a84c"/>
+              <stop offset="50%" stop-color="#e8c96b"/>
+              <stop offset="100%" stop-color="#c9a84c"/>
+            </linearGradient>
+            <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+              <stop offset="30%" stop-color="rgba(255,255,255,0.08)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <rect x="60" y="160" width="180" height="300" rx="12" fill="url(#bottleGrad)" stroke="#c9a84c" stroke-width="0.5" opacity="0.9"/>
+          <rect x="60" y="160" width="180" height="300" rx="12" fill="url(#shineGrad)" opacity="0.5"/>
+          <rect x="105" y="100" width="90" height="70" rx="4" fill="url(#bottleGrad)" stroke="#c9a84c" stroke-width="0.5"/>
+          <rect x="95" y="60" width="110" height="50" rx="8" fill="url(#goldGrad)"/>
+          <rect x="60" y="160" width="180" height="12" fill="url(#goldGrad)" opacity="0.8"/>
+          <rect x="60" y="432" width="180" height="10" fill="url(#goldGrad)" opacity="0.6"/>
+          <rect x="80" y="220" width="140" height="160" rx="4" fill="rgba(245,237,228,0.04)" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
+          <text x="150" y="285" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="22" fill="#c9a84c" font-style="italic">Miss</text>
+          <text x="150" y="312" text-anchor="middle" font-family="'Cinzel', Times, serif" font-size="14" fill="#c9a84c" letter-spacing="6">ROSE</text>
+          <text x="150" y="342" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="11" fill="rgba(201,168,76,0.5)" letter-spacing="3" font-style="italic">Perfume</text>
+          <ellipse cx="150" cy="460" rx="80" ry="15" fill="#b5214e" opacity="0.2" filter="url(#glow)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-band">
+  <div class="marquee-inner">
+    <span>Free Delivery Karachi</span><span class="dot">✦</span>
+    <span>4 Signature Scents</span><span class="dot">✦</span>
+    <span>Tester Box Available</span><span class="dot">✦</span>
+    <span>Order via WhatsApp</span><span class="dot">✦</span>
+    <span>Luxury Fragrances</span><span class="dot">✦</span>
+    <span>Miss Rose Fashion</span><span class="dot">✦</span>
+    <span>Free Delivery Karachi</span><span class="dot">✦</span>
+    <span>4 Signature Scents</span><span class="dot">✦</span>
+    <span>Tester Box Available</span><span class="dot">✦</span>
+    <span>Order via WhatsApp</span><span class="dot">✦</span>
+    <span>Luxury Fragrances</span><span class="dot">✦</span>
+    <span>Miss Rose Fashion</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<section class="products-section" id="products">
+  <div class="section-label">✦ The Collection</div>
+  <h2 class="section-title">Four <em>Signatures</em>,<br>One Legacy.</h2>
+  <div class="divider"></div>
+
+  <div class="products-grid">
+    <div class="product-card featured" onclick="addToCart('Miss Rose Tester Box', 2999)">
+      <div class="product-img-wrap">
+        <div class="product-overlay"></div>
+        <div class="product-badge badge-set">Complete Set</div>
+        <div class="css-bottle-art set-render">
+          <div class="mini-btl btl-1"></div>
+          <div class="mini-btl btl-2"></div>
+          <div class="mini-btl btl-3"></div>
+          <div class="mini-btl btl-4"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Tester Collection</p>
+        <h3 class="product-name">Miss Rose — Tester Box</h3>
+        <p class="product-desc">Experience all four signatures before you commit. The complete tester box — four miniature masterpieces in one luxurious set. The perfect introduction to the world of Miss Rose.</p>
+        <div class="product-footer">
+          <div class="product-price">Rs. 2,999 <small>/ set of 4</small></div>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Miss Rose Tester Box', 2999)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="addToCart('Velvet Noir', 1499)">
+      <div class="product-img-wrap">
+        <div class="product-overlay"></div>
+        <div class="product-badge badge-new">New</div>
+        <div class="css-bottle-art velvet-noir-render">
+          <div class="cap"></div>
+          <div class="neck"></div>
+          <div class="body"><span>I</span></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Eau de Parfum · No. 01</p>
+        <h3 class="product-name">Velvet Noir</h3>
+        <p class="product-desc">Dark roses, oud, and smoldering amber. A statement for those who enter a room and own it.</p>
+        <div class="product-footer">
+          <div class="product-price">Rs. 1,499</div>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Velvet Noir', 1499)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="addToCart('Rose Mystère', 1499)">
+      <div class="product-img-wrap">
+        <div class="product-overlay"></div>
+        <div class="css-bottle-art rose-mystere-render">
+          <div class="cap"></div>
+          <div class="neck"></div>
+          <div class="body"><span>II</span></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Eau de Parfum · No. 02</p>
+        <h3 class="product-name">Rose Mystère</h3>
+        <p class="product-desc">Bulgarian rose and sandalwood with a whisper of vanilla. Effortlessly feminine, endlessly intriguing.</p>
+        <div class="product-footer">
+          <div class="product-price">Rs. 1,499</div>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Rose Mystère', 1499)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="addToCart('Gold Elixir', 1499)">
+      <div class="product-img-wrap">
+        <div class="product-overlay"></div>
+        <div class="css-bottle-art gold-elixir-render">
+          <div class="cap"></div>
+          <div class="neck"></div>
+          <div class="body"><span>III</span></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Eau de Parfum · No. 03</p>
+        <h3 class="product-name">Gold Elixir</h3>
+        <p class="product-desc">Saffron, warm musk, and a heart of jasmine. Opulent, golden, unforgettable.</p>
+        <div class="product-footer">
+          <div class="product-price">Rs. 1,499</div>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Gold Elixir', 1499)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="addToCart('Scarlet Dusk', 1499)">
+      <div class="product-img-wrap">
+        <div class="product-overlay"></div>
+        <div class="css-bottle-art scarlet-dusk-render">
+          <div class="cap"></div>
+          <div class="neck"></div>
+          <div class="body"><span>IV</span></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <p class="product-category">Eau de Parfum · No. 04</p>
+        <h3 class="product-name">Scarlet Dusk</h3>
+        <p class="product-desc">Bergamot, wild raspberry, and a deep vetiver base. For evenings that last until dawn.</p>
+        <div class="product-footer">
+          <div class="product-price">Rs. 1,499</div>
+          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Scarlet Dusk', 1499)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="notes-section" id="about">
+  <div class="notes-visual">
+    <div class="notes-circle">
+      <span class="note-tag">Rose &amp; Oud</span>
+      <span class="note-tag">Jasmine</span>
+      <span class="note-tag">Sandalwood</span>
+      <span class="note-tag">Amber</span>
+      <span class="note-tag">Saffron</span>
+      <div class="notes-center">
+        <div class="notes-center-title">Fragrance</div>
+        <div class="notes-center-text">Notes</div>
+      </div>
+    </div>
+  </div>
+  <div class="notes-text">
+    <span class="section-label">✦ Our Story</span>
+    <h2 class="section-title">Born for the <em>Bold</em>.</h2>
+    <div class="divider"></div>
+    <p class="story-paragraph">
+      Miss Rose was created for women who express themselves through scent. Every bottle is a declaration — of confidence, of elegance, of passion unapologetically worn.
+    </p>
+    <ul class="notes-list">
+      <li>Curated luxury fragrances</li>
+      <li>Long-lasting Eau de Parfum formula</li>
+      <li>Delivery across Karachi</li>
+      <li>Try all four with our Tester Box</li>
+      <li>Order direct via WhatsApp — fast &amp; easy</li>
+    </ul>
+  </div>
+</div>
+
+<section class="wa-section" id="order">
+  <span class="section-label">✦ Easy Ordering</span>
+  <h2 class="section-title">Order in <em>Seconds.</em></h2>
+  <p class="wa-desc">
+    No forms. No waiting. Just message us on WhatsApp and we'll have your fragrance at your door.
+  </p>
+  <a href="https://wa.me/923330441552?text=Hi%20Miss%20Rose!%20I%27d%20like%20to%20order%20a%20perfume%20from%20your%20collection." target="_blank" class="btn-whatsapp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Chat with Us on WhatsApp
+  </a>
+  <p class="wa-note">92 333 0441552 · Karachi, Pakistan · Responds within minutes</p>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">Miss <span>Rose</span></div>
+      <p class="footer-tagline">"Wear your passion. Own your scent."</p>
+      <div class="footer-contact">
+        <a href="https://wa.me/923330441552" target="_blank">WhatsApp: 92 333 0441552</a>
+        <a href="mailto:smhb0333@gmail.com">smhb0333@gmail.com</a>
+        <a href="#">Karachi, Pakistan</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Collection</h4>
+      <ul>
+        <li><a href="#products">Velvet Noir</a></li>
+        <li><a href="#products">Rose Mystère</a></li>
+        <li><a href="#products">Gold Elixir</a></li>
+        <li><a href="#products">Scarlet Dusk</a></li>
+        <li><a href="#products">Tester Box</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#order">Order via WhatsApp</a></li>
+        <li><a href="#">Delivery Info</a></li>
+        <li><a href="#">Returns Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 missrosefashion.com — All rights reserved.</span>
+    <span>Crafted with passion in Karachi</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Hardware-Accelerated Responsive Cursors
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  let hasMouse = false;
+  
+  document.addEventListener('mousemove', e => { 
+    if(!hasMouse) {
+      hasMouse = true;
+      if(window.innerWidth > 992) {
+        cursor.style.display = 'block';
+        ring.style.display = 'block';
+      }
+    }
+    mx = e.clientX; 
+    my = e.clientY; 
+    cursor.style.left = mx + 'px'; 
+    cursor.style.top = my + 'px'; 
+  });
+  
+  (function animRing() { 
+    rx += (mx - rx) * 0.12; 
+    ry += (my - ry) * 0.12; 
+    ring.style.left = rx + 'px'; 
+    ring.style.top = ry + 'px'; 
+    requestAnimationFrame(animRing); 
+  })();
+
+  // Interaction Hover Scaling (Desktop only)
+  document.querySelectorAll('a, button, .product-card, .nav-cart, .qty-btn, .cart-item-remove').forEach(elem => {
+    elem.addEventListener('mouseenter', () => {
+      if(window.innerWidth > 992) {
+        cursor.style.transform = 'translate(-50%,-50%) scale(1.5)';
+        ring.style.transform = 'translate(-50%,-50%) scale(0.6)';
+        ring.style.borderColor = 'var(--rose-light)';
+      }
+    });
+    elem.addEventListener('mouseleave', () => {
+      if(window.innerWidth > 992) {
+        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.borderColor = 'rgba(201,168,76,0.5)';
+      }
+    });
+  });
+
+  // State Management Engine
+  let cart = [];
+
+  // FIXED: Modifies item quantities correctly on consecutive clicks
+  function addToCart(name, price) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) { 
+      existing.qty++; 
+    } else { 
+      cart.push({ name, price, qty: 1 }); 
+    }
+    updateCart();
+    showToast('<strong>' + name + '</strong> selection updated (' + (existing ? existing.qty : 1) + ')');
+    openCart();
+  }
+
+  function changeQty(name, delta) {
+    const item = cart.find(i => i.name === name);
+    if (item) {
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => i.name !== name);
+      }
+      updateCart();
+    }
+  }
+
+  function removeFromCart(name) {
+    cart = cart.filter(i => i.name !== name);
+    updateCart();
+  }
+
+  function updateCart() {
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const countEl = document.getElementById('cartCount');
+    
+    countEl.textContent = count;
+    countEl.style.display = count > 0 ? 'flex' : 'none';
+    document.getElementById('cartTotal').textContent = 'Rs. ' + total.toLocaleString();
+
+    const itemsEl = document.getElementById('cartItems');
+    const emptyEl = document.getElementById('cartEmpty');
+    
+    const currentItems = itemsEl.querySelectorAll('.cart-item');
+    currentItems.forEach(el => el.remove());
+
+    if (cart.length === 0) {
+      emptyEl.style.display = 'block';
+    } else {
+      emptyEl.style.display = 'block'; 
+      emptyEl.style.setProperty('display', 'none', 'important'); 
+      
+      cart.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <div class="cart-item-img">${item.name[0]}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">Rs. ${(item.price * item.qty).toLocaleString()}</div>
+            <div class="cart-qty-controls">
+              <button class="qty-btn" onclick="changeQty('${item.name}', -1)">-</button>
+              <span class="qty-val">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button>
+            </div>
+          </div>
+          <button class="cart-item-remove" onclick="removeFromCart('${item.name}')" aria-label="Remove item">×</button>`;
+        itemsEl.appendChild(div);
+      });
+    }
+  }
+
+  function openCart() {
+    document.getElementById('cartSidebar').classList.add('open');
+    document.getElementById('cartOverlay').classList.add('open');
+  }
+  
+  function closeCart() {
+    document.getElementById('cartSidebar').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('open');
+  }
+
+  function checkoutWhatsApp() {
+    if (cart.length === 0) { 
+      showToast('Your selection is empty!'); 
+      return; 
+    }
+    let msg = 'Hello Miss Rose! 🌹 I\'d like to order:\n\n';
+    cart.forEach(i => { 
+      msg += `• ${i.name} [Qty: ${i.qty}] — Rs. ${(i.price * i.qty).toLocaleString()}\n`; 
+    });
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    msg += `\nTotal Amount: Rs. ${total.toLocaleString()}\n\nPlease confirm my premium order from Karachi. Thank you!`;
+    window.open('https://wa.me/923330441552?text=' + encodeURIComponent(msg), '_blank');
+  }
+
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerHTML = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const targetId = a.getAttribute('href');
+      if(targetId === '#') return;
+      const target = document.querySelector(targetId);
+      if (target) { 
+        e.preventDefault(); 
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+      }
+    });
+  });
+</script>
+</body>
+</html>

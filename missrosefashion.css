@@ -1,0 +1,765 @@
+/* ==========================================================================
+   1. GLOBAL CONFIGURATIONS, VARIABLES & RESET
+   ========================================================================== */
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+:root {
+  --black: #080406;
+  --deep: #11090e;
+  --rose: #b5214e;
+  --rose-light: #e6396b;
+  --gold: #c9a84c;
+  --gold-light: #f3d47a;
+  --cream: #f9f5f0;
+  --muted: #a6958e;
+  --border: rgba(201,168,76,0.2);
+  --glass: rgba(17, 9, 14, 0.75);
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html { 
+  scroll-behavior: smooth; 
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--black);
+  color: var(--cream);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Cursor Interface Architecture */
+.cursor, .cursor-ring {
+  display: none;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: left, top, transform;
+}
+
+@media (min-width: 993px) {
+  body { cursor: none; }
+  .cursor {
+    display: block;
+    width: 8px; height: 8px;
+    background: var(--gold-light);
+    border-radius: 50%;
+    transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .cursor-ring {
+    display: block;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s;
+  }
+}
+
+/* ==========================================================================
+   2. NAVIGATION BAR
+   ========================================================================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 6vw;
+  background: linear-gradient(to bottom, rgba(8,4,6,0.95), transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: var(--transition-smooth);
+}
+
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(18px, 4vw, 22px);
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-logo span { 
+  color: var(--rose-light); 
+}
+
+.nav-links { 
+  display: flex; gap: clamp(20px, 3.5vw, 45px); list-style: none; 
+}
+
+.nav-links a {
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: var(--transition-smooth);
+  display: inline-block;
+}
+
+.nav-links a:hover { 
+  opacity: 1; 
+  color: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.nav-cart {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--cream);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: var(--transition-smooth);
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  padding: 10px 20px;
+  border-radius: 40px;
+  border: 1px solid var(--border);
+}
+
+.nav-cart:hover { 
+  color: var(--gold);
+  background: rgba(201,168,76,0.08);
+  border-color: rgba(201,168,76,0.4);
+}
+
+.cart-count {
+  background: var(--rose);
+  color: #fff;
+  font-size: 10px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(181, 33, 78, 0.4);
+}
+
+/* ==========================================================================
+   3. HERO SECTION
+   ========================================================================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--deep);
+  padding: 140px 0 80px;
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 6vw;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 85% 35%, rgba(181,33,78,0.2) 0%, transparent 60%),
+    radial-gradient(circle at 15% 75%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.hero-noise {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.hero-ornament {
+  position: absolute;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(120px, 20vw, 360px);
+  font-weight: 300;
+  color: rgba(181,33,78,0.025);
+  right: -2vw; top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+  font-style: italic;
+  user-select: none;
+}
+
+.hero-content { 
+  max-width: 640px; 
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(42px, 6vw, 84px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 24px;
+  text-wrap: balance;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--rose-light);
+}
+
+.hero-title .gold-word { 
+  color: var(--gold); 
+  font-weight: 400;
+}
+
+.hero-desc {
+  font-size: clamp(14px, 2vw, 16px);
+  line-height: 1.75;
+  color: rgba(245,237,228,0.7);
+  max-width: 520px;
+  margin-bottom: 40px;
+  letter-spacing: 0.02em;
+}
+
+.hero-ctas {
+  display: flex; flex-wrap: wrap; gap: 24px; align-items: center;
+}
+
+.btn-primary {
+  background: var(--rose);
+  color: #fff;
+  border: 1px solid transparent;
+  padding: 18px 40px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(181, 33, 78, 0.2);
+}
+
+.btn-primary:hover { 
+  background: transparent; 
+  border-color: var(--rose-light);
+  color: var(--rose-light);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(181,33,78,0.3);
+}
+
+.btn-ghost {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  padding-bottom: 6px;
+  transition: var(--transition-smooth);
+}
+
+.btn-ghost:hover { 
+  color: var(--gold-light); 
+  border-color: var(--gold-light);
+  padding-left: 8px;
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-bottle {
+  width: 100%;
+  max-width: 310px;
+  height: auto;
+  aspect-ratio: 300 / 500;
+  animation: float 6s ease-in-out infinite;
+}
+
+.bottle-svg { 
+  width: 100%; height: 100%; 
+}
+
+/* ==========================================================================
+   4. MARQUEE ANNOUNCEMENTS
+   ========================================================================== */
+.marquee-band {
+  background: var(--rose);
+  padding: 16px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 30s linear infinite;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.95);
+}
+
+.marquee-inner span { 
+  margin: 0 30px; 
+}
+
+.marquee-inner .dot { 
+  color: var(--gold-light); font-size: 12px; 
+}
+
+/* ==========================================================================
+   5. SECTIONS STRUCTURE
+   ========================================================================== */
+section { 
+  padding: 120px 6vw; 
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 32px;
+  text-wrap: balance;
+}
+
+.section-title em { 
+  font-style: italic; color: var(--rose-light); 
+}
+
+.divider {
+  width: 80px; height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+  margin-bottom: 60px;
+}
+
+/* ==========================================================================
+   6. PRODUCT CARD GRID CONFIGURATIONS
+   ========================================================================== */
+.products-section { 
+  background: var(--deep); 
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 30px;
+}
+
+.product-card {
+  background: var(--black);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.4s, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s;
+  display: flex;
+  flex-direction: column;
+  grid-column: span 4;
+}
+
+.product-card:hover { 
+  border-color: rgba(201,168,76,0.5); 
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.product-card.featured {
+  grid-column: span 12;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.product-img-wrap {
+  height: 320px;
+  background: radial-gradient(circle at 50% 50%, rgba(181,33,78,0.08), transparent 75%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(201,168,76,0.05);
+}
+
+.product-card.featured .product-img-wrap { 
+  height: 100%;
+  border-bottom: none;
+  border-right: 1px solid rgba(201,168,76,0.05);
+}
+
+/* Custom CSS Perfume Bottle Art Engine */
+.css-bottle-art {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card:hover .css-bottle-art {
+  transform: scale(1.05) translateY(-4px);
+}
+
+.css-bottle-art .cap {
+  width: 32px; height: 18px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.css-bottle-art .neck {
+  width: 14px; height: 10px;
+  background: #e1c265;
+}
+
+.css-bottle-art .body {
+  width: 76px; height: 115px;
+  border-radius: 6px;
+  border: 1px solid rgba(251, 237, 220, 0.15);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.css-bottle-art .body span {
+  font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); font-weight: 600;
+  border: 1px solid rgba(201,168,76,0.25); padding: 4px 8px; background: rgba(0,0,0,0.6);
+  letter-spacing: 1px;
+}
+
+.velvet-noir-render .body { background: linear-gradient(to bottom, #190a12, #090407); }
+.rose-mystere-render .body { background: linear-gradient(to bottom, #33101c, #14050a); }
+.gold-elixir-render .body { background: linear-gradient(to bottom, #2b1d07, #120c02); }
+.scarlet-dusk-render .body { background: linear-gradient(to bottom, #3a0d13, #160306); }
+
+/* Set Render Box */
+.set-render { display: flex; flex-direction: row !important; gap: 12px; padding: 20px; }
+.set-render .mini-btl { width: 26px; height: 48px; border-radius: 2px; border: 1px solid rgba(201,168,76,0.25); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.set-render .mini-btl:nth-child(1) { background: linear-gradient(to bottom, #190a12, #090407); }
+.set-render .mini-btl:nth-child(2) { background: linear-gradient(to bottom, #33101c, #14050a); }
+.set-render .mini-btl:nth-child(3) { background: linear-gradient(to bottom, #2b1d07, #120c02); }
+.set-render .mini-btl:nth-child(4) { background: linear-gradient(to bottom, #3a0d13, #160306); }
+
+.product-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(181,33,78,0.06), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 1;
+}
+
+.product-card:hover .product-overlay { opacity: 1; }
+
+.product-badge {
+  position: absolute; top: 16px; left: 16px;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 6px 14px; z-index: 3;
+  font-weight: 600;
+}
+.badge-new { background: var(--rose); color: #fff; }
+.badge-set { background: var(--gold); color: var(--black); }
+
+.product-info { 
+  padding: 32px;
+  display: flex; flex-direction: column; flex: 1; justify-content: center;
+}
+
+.product-category {
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; color: var(--cream); margin-bottom: 12px;
+}
+
+.product-card.featured .product-name { font-size: clamp(28px, 4vw, 36px); }
+
+.product-desc {
+  font-size: 13.5px; color: var(--muted); line-height: 1.65; margin-bottom: 24px;
+}
+
+.product-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: auto;
+}
+
+.product-price { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--gold-light); font-weight: 400; }
+.product-price small { font-size: 12px; color: var(--muted); font-family: 'Raleway', sans-serif; letter-spacing: 0.5px; }
+
+.btn-add {
+  background: transparent; border: 1px solid var(--border); color: var(--cream);
+  padding: 12px 24px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: var(--transition-smooth); font-weight: 600;
+}
+.btn-add:hover { background: var(--rose); border-color: var(--rose); color: #fff; transform: scale(1.02); }
+
+/* ==========================================================================
+   7. FRAGRANCE NOTES SYSTEM
+   ========================================================================== */
+.notes-section {
+  background: var(--black);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 120px 6vw;
+  border-top: 1px solid rgba(255,255,255,0.02);
+}
+
+.notes-visual { position: relative; width: 100%; display: flex; justify-content: center; }
+
+.notes-circle {
+  width: min(380px, 85vw); height: min(380px, 85vw);
+  border-radius: 50%; border: 1px solid var(--border);
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.notes-circle::before {
+  content: ''; position: absolute; inset: 24px; border-radius: 50%;
+  border: 1px dashed rgba(201,168,76,0.12); animation: rotate 60s linear infinite;
+}
+
+.notes-center { text-align: center; font-family: 'Cormorant Garamond', serif; z-index: 2; }
+.notes-center-title { font-size: 16px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; }
+.notes-center-text { font-size: 13px; color: var(--muted); margin-top: 6px; letter-spacing: 1px; }
+
+.note-tag {
+  position: absolute; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--cream); background: rgba(13, 7, 10, 0.95); border: 1px solid var(--border);
+  padding: 8px 16px; white-space: nowrap; border-radius: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  font-weight: 500;
+}
+.note-tag:nth-child(1) { top: 6%; left: -5%; }
+.note-tag:nth-child(2) { top: 6%; right: -5%; }
+.note-tag:nth-child(3) { bottom: 22%; left: -10%; }
+.note-tag:nth-child(4) { bottom: 22%; right: -10%; }
+.note-tag:nth-child(5) { bottom: 2%; left: 50%; transform: translateX(-50%); }
+
+.story-paragraph { font-size: 15.5px; color: rgba(245,237,228,0.65); line-height: 1.85; margin-bottom: 28px; }
+.notes-list { list-style: none; margin-top: 30px; }
+.notes-list li {
+  padding: 16px 0; border-bottom: 1px solid rgba(245,237,228,0.05);
+  display: flex; align-items: center; gap: 16px; font-size: 14px; color: rgba(245,237,228,0.8);
+}
+.notes-list li::before { content: ''; width: 5px; height: 5px; background: var(--rose-light); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px var(--rose-light); }
+
+/* ==========================================================================
+   8. WHATSAPP CONVERSION BLOCK
+   ========================================================================== */
+.wa-section {
+  background: linear-gradient(135deg, #0a0407 0%, #150a11 50%, #0a0407 100%);
+  text-align: center; padding: 120px 6vw; position: relative; overflow: hidden;
+  border-top: 1px solid rgba(201,168,76,0.05);
+}
+.wa-section::before {
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 600px; height: 600px; background: radial-gradient(circle, rgba(181,33,78,0.09) 0%, transparent 70%); pointer-events: none;
+}
+
+.wa-desc { font-size: 15.5px; color: rgba(245,237,228,0.65); max-width: 520px; margin: 0 auto 40px; line-height: 1.75; }
+
+.btn-whatsapp {
+  display: inline-flex; align-items: center; gap: 14px; background: #25d366; color: #fff;
+  padding: 18px 44px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none; font-weight: 600; transition: var(--transition-smooth); box-shadow: 0 10px 30px rgba(37,211,102,0.2);
+}
+.btn-whatsapp:hover { background: #1ebd54; transform: translateY(-4px); box-shadow: 0 15px 35px rgba(37,211,102,0.35); }
+.btn-whatsapp svg { width: 20px; height: 20px; fill: #fff; }
+.wa-note { margin-top: 24px; font-size: 12px; color: var(--muted); letter-spacing: 0.1em; }
+
+/* ==========================================================================
+   9. CART DRAWER SYSTEM
+   ========================================================================== */
+.cart-sidebar {
+  position: fixed; right: -460px; top: 0; bottom: 0;
+  width: 460px; max-width: 100%; background: var(--deep);
+  border-left: 1px solid var(--border); z-index: 200;
+  transition: right 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex; flex-direction: column;
+  box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+}
+.cart-sidebar.open { right: 0; }
+
+.cart-header { padding: 28px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: rgba(8,4,6,0.3); }
+.cart-header h2 { font-family: 'Cinzel', serif; font-size: 16px; letter-spacing: 0.15em; color: var(--gold); font-weight: 600; }
+.cart-close { background: none; border: none; color: var(--muted); font-size: 28px; cursor: pointer; transition: color 0.2s; padding: 0 4px; }
+.cart-close:hover { color: var(--rose-light); }
+
+.cart-items-container { flex: 1; overflow-y: auto; padding: 10px 24px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.cart-empty { text-align: center; padding: 80px 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.cart-empty .discover-scents { color: var(--rose); font-size: 12px; display: block; margin-top: 8px; letter-spacing: 2px; text-transform: uppercase; }
+
+.cart-item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid rgba(245,237,228,0.06); align-items: center; }
+.cart-item-img {
+  width: 48px; height: 48px; background: rgba(181,33,78,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold-light); font-style: italic; flex-shrink: 0;
+  border: 1px solid rgba(201,168,76,0.15);
+}
+.cart-item-info { flex: 1; }
+.cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--cream); margin-bottom: 4px; }
+.cart-item-price { font-size: 13px; color: var(--gold); margin-bottom: 8px; font-weight: 500; }
+
+.cart-qty-controls { display: inline-flex; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.18); padding: 2px; }
+.qty-btn { background: none; border: none; color: var(--cream); width: 28px; height: 24px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; font-weight: 600; transition: background 0.2s, color 0.2s; }
+.qty-btn:hover { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+.qty-val { font-size: 12px; padding: 0 10px; min-width: 24px; text-align: center; color: var(--cream); font-weight: 500; }
+
+.cart-item-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 24px; padding: 0 6px; transition: color 0.2s; }
+.cart-item-remove:hover { color: var(--rose-light); }
+
+.cart-footer { padding: 26px 24px; border-top: 1px solid var(--border); background: var(--black); }
+.cart-total { display: flex; justify-content: space-between; font-family: 'Cormorant Garamond', serif; font-size: 22px; margin-bottom: 20px; }
+.cart-total span:last-child { color: var(--gold-light); font-weight: 600; }
+
+.btn-checkout, .btn-checkout-wa {
+  width: 100%; border: none; padding: 16px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; font-weight: 600; transition: var(--transition-smooth);
+}
+.btn-checkout { background: var(--rose); color: #fff; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(181, 33, 78, 0.2); }
+.btn-checkout:hover { background: var(--rose-light); transform: translateY(-2px); }
+.btn-checkout-wa { background: #25d366; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15); }
+.btn-checkout-wa:hover { background: #1ebd54; transform: translateY(-2px); }
+.btn-checkout-wa svg { width: 16px; height: 16px; fill: #fff; }
+
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 199; display: none; }
+.cart-overlay.open { display: block; }
+
+/* ==========================================================================
+   10. CORPORATE FOOTER
+   ========================================================================== */
+footer { background: var(--black); border-top: 1px solid var(--border); padding: 80px 6vw 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+.footer-logo { font-family: 'Cinzel', serif; font-size: 24px; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 18px; font-weight: 600; }
+.footer-logo span { color: var(--rose-light); }
+.footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: rgba(245,237,228,0.45); margin-bottom: 24px; }
+.footer-contact a { display: block; color: rgba(245,237,228,0.6); text-decoration: none; font-size: 13.5px; margin-bottom: 10px; transition: color 0.2s; }
+.footer-contact a:hover { color: var(--gold); }
+
+.footer-col h4 { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; font-weight: 600; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a { color: rgba(245,237,228,0.5); text-decoration: none; font-size: 13.5px; transition: color 0.3s; }
+.footer-col ul li a:hover { color: var(--cream); padding-left: 2px; }
+
+.footer-bottom { border-top: 1px solid rgba(245,237,228,0.06); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: rgba(245,237,228,0.4); }
+
+/* ==========================================================================
+   11. TOAST NOTIFICATIONS
+   ========================================================================== */
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(120px);
+  background: var(--deep); border: 1px solid var(--border); color: var(--cream);
+  padding: 16px 32px; font-size: 12.5px; letter-spacing: 0.05em; z-index: 1000;
+  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; width: max-content; max-width: 90vw;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast strong { color: var(--gold-light); font-weight: 500; }
+
+/* ==========================================================================
+   12. MOTION KEYFRAMES
+   ========================================================================== */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   13. COMPREHENSIVE RESPONSIVE ENGINE (MOBILE & TABLET FIXES)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .products-grid { gap: 24px; }
+  .product-card { grid-column: span 4; }
+  .product-card.featured { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 1024px) {
+  .product-card { grid-column: span 6; }
+}
+
+@media (max-width: 992px) {
+  nav { padding: 20px 5vw; }
+  .nav-links { display: none !important; } /* Clean, hidden core list links on tablet/mobile views */
+  
+  .hero { padding: 130px 0 60px; }
+  .hero-container { grid-template-columns: 1fr; gap: 40px; text-align: center; justify-items: center; }
+  .hero-content { margin: 0 auto; order: 1; }
+  .hero-desc { margin-left: auto; margin-right: auto; }
+  .hero-ctas { justify-content: center; }
+  .hero-ornament { font-size: 26vw; top: 25%; }
+  .hero-visual { order: 2; margin-top: 10px; width: 100%; max-width: 240px; }
+
+  section { padding: 80px 5vw; }
+  
+  .products-grid { grid-template-columns: 1fr; gap: 24px; }
+  .product-card { grid-column: span 1 !important; }
+  .product-card.featured { grid-template-columns: 1fr; }
+  .product-card.featured .product-img-wrap { height: 280px; border-right: none; border-bottom: 1px solid rgba(201,168,76,0.05); }
+
+  .notes-section { grid-template-columns: 1fr; padding: 80px 5vw; gap: 50px; }
+  .notes-visual { order: 2; }
+  .notes-text { order: 1; text-align: center; }
+  .divider { margin-left: auto; margin-right: auto; }
+  .notes-list li { justify-content: center; }
+  
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .cart-sidebar { width: 100%; right: -100%; border-left: none; }
+}
+
+@media (max-width: 480px) {
+  nav { padding: 16px 4vw; }
+  section { padding: 60px 4vw; }
+  .hero-title { font-size: clamp(36px, 11vw, 50px); }
+  .btn-primary { width: 100%; text-align: center; padding: 16px 24px; }
+  .btn-ghost { width: 100%; text-align: center; display: inline-block; padding: 12px 0; }
+  .btn-whatsapp { width: 100%; justify-content: center; padding: 16px 20px; }
+  .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+  
+  .note-tag { font-size: 9px; padding: 6px 14px; }
+  .note-tag:nth-child(1) { top: 4%; left: -2%; }
+  .note-tag:nth-child(2) { top: 4%; right: -2%; }
+  .note-tag:nth-child(3) { bottom: 20%; left: -4%; }
+  .note-tag:nth-child(4) { bottom: 20%; right: -4%; }
+  
+  .cart-header { padding: 20px 16px; }
+  .cart-items-container { padding: 10px 16px; }
+  .cart-footer { padding: 20px 16px; }
+}
