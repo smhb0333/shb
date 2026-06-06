@@ -2,501 +2,1984 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miss Rose — Luxury Perfumes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="SHB — Luxury Fragrances from Karachi. Four masterfully curated signature scents. Order via WhatsApp with free delivery across Karachi.">
+  <title>SHB — Luxury Fragrances</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="missrosefashion.css">
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       SHB FRAGRANCES — FULLY RESPONSIVE LUXURY SYSTEM
+    ===================================================== */
+
+    :root {
+      --gold:        #c8a96e;
+      --gold-light:  #e0c68c;
+      --gold-pale:   #f5e9cc;
+      --gold-dim:    rgba(200,169,110,0.12);
+      --gold-border: rgba(200,169,110,0.22);
+
+      --ink:         #07050a;
+      --surface:     #0d0b10;
+      --surface-2:   #131018;
+      --surface-3:   #1a1620;
+      --surface-4:   #221d28;
+
+      --text:        #f0e8dc;
+      --text-muted:  rgba(240,232,220,0.55);
+      --text-faint:  rgba(240,232,220,0.28);
+
+      --border:      rgba(200,169,110,0.18);
+      --border-dim:  rgba(240,232,220,0.06);
+
+      --ff-display:  'Italiana', Georgia, serif;
+      --ff-serif:    'Cormorant Garamond', Georgia, serif;
+      --ff-sans:     'Jost', system-ui, sans-serif;
+
+      --ann-h:       36px;
+      --nav-h:       68px;
+      --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in:     cubic-bezier(0.7, 0, 1, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: var(--ff-sans);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+    ul { list-style: none; }
+    input, textarea { font-family: inherit; }
+
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+    /* ── CUSTOM CURSOR ── */
+    .c-dot {
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99999;
+      transform: translate(-50%,-50%);
+    }
+    .c-ring {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(200,169,110,0.45);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99998;
+      transform: translate(-50%,-50%);
+      transition: width .35s var(--ease), height .35s var(--ease), border-color .3s;
+    }
+    .c-ring.hover { width: 48px; height: 48px; border-color: var(--gold); }
+    @media (hover: none) { .c-dot, .c-ring { display: none !important; } }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .ann-bar {
+      background: var(--gold);
+      color: var(--ink);
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 0.65rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      position: relative;
+      z-index: 202;
+      line-height: 1.3;
+      height: var(--ann-h);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── NAVIGATION ── */
+    .nav {
+      position: fixed;
+      top: var(--ann-h);
+      left: 0;
+      width: 100%;
+      height: var(--nav-h);
+      padding: 0 4%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 200;
+      transition: top .35s, background .4s, box-shadow .4s;
+    }
+    .nav.scrolled {
+      top: 0;
+      background: rgba(7,5,10,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 1.9rem;
+      letter-spacing: 5px;
+      color: var(--text);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .nav-logo .gold { color: var(--gold); }
+    .nav-logo sup {
+      font-family: var(--ff-sans);
+      font-size: 0.38rem;
+      letter-spacing: 2px;
+      vertical-align: super;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    .nav-links a {
+      font-size: 0.67rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      position: relative;
+      transition: color .3s;
+      padding-bottom: 3px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 1px; width: 0;
+      background: var(--gold);
+      transition: width .35s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-cart-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.67rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color .3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-cart-btn:hover { color: var(--gold); }
+    .nav-cart-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+    .cart-badge {
+      background: var(--gold);
+      color: var(--ink);
+      font-size: 0.58rem;
+      font-weight: 700;
+      min-width: 16px; height: 16px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+    }
+    .cart-badge.on { display: flex; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--text);
+      transition: all .35s var(--ease);
+      transform-origin: center;
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile menu drawer */
+    .mobile-drawer {
+      position: fixed;
+      top: 0; right: -100%;
+      width: min(340px, 100vw);
+      height: 100dvh;
+      background: var(--surface);
+      z-index: 199;
+      padding: 90px 40px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      transition: right .45s var(--ease);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { right: 0; }
+    .mobile-drawer a {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 0;
+      font-family: var(--ff-serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-dim);
+      transition: color .3s, padding-left .3s;
+    }
+    .mobile-drawer a:hover, .mobile-drawer a:active { color: var(--gold); padding-left: 6px; }
+    .mobile-drawer a span {
+      font-family: var(--ff-sans);
+      font-size: 0.58rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-left: auto;
+    }
+    .mobile-drawer-contact {
+      margin-top: auto;
+      padding-top: 30px;
+    }
+    .mobile-drawer-contact p {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      color: var(--text-faint);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .mobile-drawer-contact a {
+      font-family: var(--ff-sans);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding: 0;
+      border: none;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .drawer-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 198;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s;
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100dvh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding-top: calc(var(--ann-h) + var(--nav-h));
+    }
+    .hero-noise {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none; z-index: 0;
+      opacity: 0.5;
+    }
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 65% 70% at 70% 45%, rgba(45,25,5,0.55) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 50% at 5% 70%, rgba(25,10,30,0.5) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(20,12,5,0.4) 0%, transparent 50%),
+        var(--ink);
+      z-index: 0;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(200,169,110,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,169,110,0.035) 1px, transparent 1px);
+      background-size: 70px 70px;
+      z-index: 0;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 60px 4% 60px;
+      align-items: center;
+    }
+
+    .hero-left { padding-right: 40px; }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .hero-eyebrow-line { width: 36px; height: 1px; background: var(--gold); }
+    .hero-eyebrow span {
+      font-size: 0.63rem;
+      letter-spacing: 4.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(3rem, 6vw, 6.5rem);
+      line-height: 1.0;
+      font-weight: 400;
+      margin-bottom: 28px;
+      letter-spacing: 1px;
+    }
+    .hero-title .ghost {
+      display: block;
+      -webkit-text-stroke: 1px rgba(240,232,220,0.2);
+      color: transparent;
+    }
+    .hero-title .accent { color: var(--gold-light); display: block; }
+    .hero-title .italic {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(2rem, 4.2vw, 4.5rem);
+      display: block;
+      color: var(--text-muted);
+    }
+
+    .hero-desc {
+      font-family: var(--ff-serif);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 420px;
+      margin-bottom: 40px;
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--gold);
+      color: var(--ink);
+      padding: 15px 34px;
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: background .3s, transform .35s var(--ease), box-shadow .3s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(200,169,110,0.28);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 15px 34px;
+      font-size: 0.67rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: border-color .3s, color .3s, transform .35s var(--ease);
+      white-space: nowrap;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #22c55e;
+      color: #fff;
+      padding: 15px 34px;
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      transition: background .3s, transform .35s var(--ease), box-shadow .3s;
+      white-space: nowrap;
+    }
+    .btn-wa:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(34,197,94,0.2); }
+    .btn-wa svg { width: 17px; height: 17px; fill: currentColor; flex-shrink: 0; }
+
+    .hero-stats {
+      display: flex;
+      gap: 36px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-dim);
+    }
+    .stat-num {
+      font-family: var(--ff-serif);
+      font-size: 1.9rem;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .stat-lbl {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* Hero right */
+    .hero-right {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .hero-frame {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+    }
+    .hero-frame::before {
+      content: '';
+      position: absolute;
+      top: -16px; right: -16px;
+      width: 78%; height: 78%;
+      border: 1px solid var(--border);
+      pointer-events: none; z-index: 0;
+    }
+    .hero-frame::after {
+      content: '';
+      position: absolute;
+      bottom: -16px; left: -16px;
+      width: 45%; height: 45%;
+      border: 1px solid rgba(200,169,110,0.07);
+      pointer-events: none; z-index: 0;
+    }
+    .hero-img {
+      position: relative; z-index: 1;
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: brightness(0.9) contrast(1.05) saturate(0.9);
+    }
+    .hero-float-tag {
+      position: absolute;
+      bottom: 28px; left: -36px;
+      z-index: 2;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 18px 22px;
+      backdrop-filter: blur(12px);
+    }
+    .hft-label { font-size: 0.58rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .hft-text { font-family: var(--ff-display); font-size: 1.1rem; letter-spacing: 2px; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .marquee-track {
+      display: flex;
+      animation: scrollMarquee 28s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 24px;
+      font-size: 0.63rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .marquee-sep { color: var(--gold); font-size: 0.45rem; }
+    @keyframes scrollMarquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION COMMONS ── */
+    .section { padding: 100px 4%; }
+    .sec-inner { max-width: 1440px; margin: 0 auto; }
+
+    .sec-eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .sec-eyebrow-line { width: 32px; height: 1px; background: linear-gradient(to right, transparent, var(--gold)); }
+    .sec-eyebrow-line.r { background: linear-gradient(to left, transparent, var(--gold)); }
+    .sec-eyebrow span { font-size: 0.6rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+
+    .sec-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 400;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .sec-title em { font-family: var(--ff-serif); font-style: italic; color: var(--gold-light); font-weight: 300; }
+    .sec-sub {
+      font-family: var(--ff-serif);
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 520px;
+      margin: 0 auto 56px;
+      line-height: 1.75;
+    }
+    .gold-rule { width: 44px; height: 1px; background: var(--gold); margin: 14px auto 48px; }
+
+    /* ── PRODUCTS ── */
+    .products-section { padding-top: 80px; padding-bottom: 100px; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-dim);
+      border: 1px solid var(--border-dim);
+      margin-bottom: 1px;
+    }
+    .products-row-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1px;
+      background: var(--border-dim);
+      border: 1px solid var(--border-dim);
+      border-top: none;
+    }
+
+    .product-card {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background .4s;
+    }
+    .product-card:hover { background: var(--surface-2); }
+
+    .product-card.tester {
+      background: linear-gradient(135deg, var(--surface-2), var(--surface-3));
+      grid-template-columns: 1fr 1fr;
+      display: grid;
+    }
+
+    .product-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--surface-3);
+    }
+    .product-card.tester .product-img-wrap { aspect-ratio: 4/5; }
+    .product-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .75s var(--ease), filter .5s;
+      filter: brightness(0.88) saturate(0.88);
+    }
+    .product-card:hover .product-img-wrap img { transform: scale(1.06); filter: brightness(0.95) saturate(1); }
+
+    .product-badge {
+      position: absolute;
+      top: 0; left: 0;
+      padding: 7px 13px;
+      font-size: 0.56rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .badge-gold { background: var(--gold); color: var(--ink); }
+    .badge-outline { background: transparent; color: var(--gold); border: 1px solid var(--border); border-top: none; border-left: none; }
+    .badge-dark { background: rgba(7,5,10,0.85); color: var(--text); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .badge-new { background: var(--surface-3); color: var(--gold-light); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .product-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(7,5,10,0.85) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity .4s;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      padding: 18px;
+    }
+    .product-card:hover .product-overlay { opacity: 1; }
+    .product-quick {
+      width: 100%;
+      background: var(--gold);
+      color: var(--ink);
+      padding: 12px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background .3s;
+    }
+    .product-quick:hover { background: var(--gold-light); }
+
+    .product-info {
+      padding: 20px 20px 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-cat { font-size: 0.58rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 7px; }
+    .product-name { font-family: var(--ff-display); font-size: 1.1rem; font-weight: 400; margin-bottom: 9px; line-height: 1.2; letter-spacing: 1px; }
+    .product-desc { font-family: var(--ff-serif); font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; flex-grow: 1; margin-bottom: 18px; }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-dim);
+      gap: 8px;
+    }
+    .product-price { font-family: var(--ff-serif); font-size: 1.2rem; font-weight: 500; color: var(--text); white-space: nowrap; }
+    .btn-add-cart {
+      font-size: 0.58rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border-dim);
+      padding: 8px 16px;
+      transition: all .3s;
+      background: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-add-cart:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+    /* Tester card */
+    .tester-content {
+      display: flex;
+      flex-direction: column;
+      padding: 28px 26px;
+      justify-content: center;
+    }
+    .tester-badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+    .mini-badge {
+      font-size: 0.53rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      color: var(--gold-light);
+      padding: 4px 10px;
+    }
+    .tester-note {
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      padding: 13px 16px;
+      font-size: 0.78rem;
+      color: var(--gold-light);
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .tester-desc { font-family: var(--ff-serif); font-size: 0.97rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 22px; }
+
+    /* ── TRUST STRIP ── */
+    .trust-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border-dim);
+      border-bottom: 1px solid var(--border-dim);
+      padding: 0 4%;
+    }
+    .trust-grid {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-dim);
+    }
+    .trust-item {
+      background: var(--surface);
+      padding: 36px 24px;
+      text-align: center;
+      transition: background .35s;
+    }
+    .trust-item:hover { background: var(--surface-2); }
+    .trust-icon { font-size: 1.4rem; margin-bottom: 12px; }
+    .trust-title { font-size: 0.68rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text); margin-bottom: 8px; }
+    .trust-desc { font-family: var(--ff-serif); font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── STORY / ABOUT ── */
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .story-visual { position: relative; }
+    .story-img-main { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: brightness(0.85) saturate(0.8); position: relative; z-index: 1; }
+    .story-img-accent {
+      position: absolute;
+      bottom: -24px; right: -24px;
+      width: 48%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      filter: brightness(0.85) saturate(0.8);
+      border: 4px solid var(--surface);
+      z-index: 2;
+    }
+    .story-badge-box {
+      position: absolute;
+      top: 24px; left: -24px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+      z-index: 3;
+    }
+    .sbb-num { font-family: var(--ff-serif); font-size: 2.6rem; color: var(--gold); line-height: 1; }
+    .sbb-lbl { font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+
+    .story-text { padding-left: 8px; }
+    .story-body { font-family: var(--ff-serif); font-size: 1.05rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 32px; }
+    .pillars { display: flex; flex-direction: column; gap: 0; margin-bottom: 40px; }
+    .pillar { display: flex; align-items: flex-start; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border-dim); }
+    .pillar:first-child { border-top: 1px solid var(--border-dim); }
+    .pillar-icon { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+    .pillar-ttl { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+    .pillar-txt { font-family: var(--ff-serif); font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── FRAGRANCE NOTES ── */
+    .notes-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border-dim);
+      border-bottom: 1px solid var(--border-dim);
+      padding: 0 4%;
+    }
+    .notes-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .notes-left { padding: 80px 56px 80px 0; border-right: 1px solid var(--border-dim); }
+    .notes-left .sec-eyebrow, .notes-left .sec-title { text-align: left; justify-content: flex-start; }
+    .notes-left .gold-rule { margin-left: 0; }
+    .notes-body { font-family: var(--ff-serif); font-size: 1.02rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; }
+    .notes-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .note-tag {
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      padding: 7px 16px;
+      font-size: 0.63rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: all .3s;
+      cursor: default;
+    }
+    .note-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+    .notes-right { padding: 80px 0 80px 56px; display: flex; align-items: center; justify-content: center; }
+    .wheel-container { position: relative; width: 280px; height: 280px; }
+    .wheel-svg-wrap { position: absolute; inset: 0; animation: rotateSlow 40s linear infinite; }
+    .wheel-svg-wrap circle { fill: none; stroke: var(--border); stroke-width: 1; stroke-dasharray: 6 12; }
+    .wheel-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+    .wheel-brand { font-family: var(--ff-display); font-size: 1.5rem; letter-spacing: 4px; }
+    .wheel-sub { font-size: 0.52rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+    .float-pills { position: absolute; inset: -46px; }
+    .pill {
+      position: absolute;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+      transform: translate(-50%,-50%);
+    }
+    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* ── ORDER CTA ── */
+    .order-section { padding: 100px 4%; text-align: center; }
+    .order-box {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 72px 48px;
+      border: 1px solid var(--border);
+      position: relative;
+      background: var(--surface);
+    }
+    .order-box::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(200,169,110,0.07);
+      pointer-events: none;
+    }
+    .order-title { font-family: var(--ff-display); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 400; margin-bottom: 16px; letter-spacing: 1px; }
+    .order-body { font-family: var(--ff-serif); color: var(--text-muted); font-size: 1.05rem; line-height: 1.75; max-width: 500px; margin: 0 auto 38px; }
+    .order-note { margin-top: 22px; font-size: 0.63rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-faint); }
+    .order-note a { color: var(--gold); transition: color .3s; }
+    .order-note a:hover { color: var(--gold-light); }
+
+    /* ── CART DRAWER ── */
+    .cart-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.78);
+      z-index: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s;
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: auto; }
+    .cart-drawer {
+      position: fixed;
+      top: 0; right: -100%;
+      width: min(420px, 100vw);
+      height: 100dvh;
+      background: var(--surface);
+      z-index: 501;
+      display: flex;
+      flex-direction: column;
+      transition: right .45s var(--ease);
+      border-left: 1px solid var(--border);
+    }
+    .cart-drawer.open { right: 0; }
+
+    .cart-head {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cart-head-title { font-family: var(--ff-display); font-size: 1.25rem; font-weight: 400; letter-spacing: 3px; }
+    .cart-close-btn {
+      width: 34px; height: 34px;
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .3s;
+      background: none;
+      cursor: pointer;
+    }
+    .cart-close-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .cart-body { flex-grow: 1; overflow-y: auto; padding: 20px 28px; }
+    .cart-empty { text-align: center; margin-top: 60px; color: var(--text-muted); font-family: var(--ff-serif); font-size: 1.02rem; line-height: 1.9; }
+    .cart-empty em { font-style: italic; color: var(--gold); }
+
+    .cart-item { display: flex; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border-dim); position: relative; }
+    .cart-item-img { width: 60px; height: 72px; object-fit: cover; background: var(--surface-3); flex-shrink: 0; }
+    .cart-item-det { flex-grow: 1; }
+    .cart-item-name { font-family: var(--ff-display); font-size: 0.92rem; letter-spacing: 1px; margin-bottom: 4px; }
+    .cart-item-unit { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 11px; }
+    .qty-row { display: flex; align-items: center; gap: 10px; }
+    .qty-btn {
+      width: 26px; height: 26px;
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s; background: none; cursor: pointer;
+    }
+    .qty-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .qty-num { font-size: 0.88rem; min-width: 20px; text-align: center; }
+    .cart-item-price { font-family: var(--ff-serif); font-size: 0.95rem; color: var(--gold-light); min-width: 76px; text-align: right; align-self: center; }
+    .cart-remove { position: absolute; top: 16px; right: 0; background: none; border: none; color: var(--text-faint); font-size: 1.1rem; cursor: pointer; transition: color .3s; }
+    .cart-remove:hover { color: #ef4444; }
+
+    .cart-foot { padding: 22px 28px; border-top: 1px solid var(--border-dim); background: var(--surface-2); }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .ct-label { font-size: 0.66rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-muted); }
+    .ct-amount { font-family: var(--ff-serif); font-size: 1.35rem; color: var(--gold-light); }
+    .btn-checkout {
+      width: 100%; background: var(--gold); color: var(--ink);
+      padding: 14px; font-size: 0.66rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; margin-bottom: 8px; border: none; cursor: pointer; transition: background .3s;
+    }
+    .btn-checkout:hover { background: var(--gold-light); }
+    .btn-wa-checkout {
+      width: 100%; background: #22c55e; color: #fff;
+      padding: 13px; font-size: 0.66rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; display: flex; align-items: center; justify-content: center;
+      gap: 9px; border: none; cursor: pointer; transition: background .3s;
+    }
+    .btn-wa-checkout:hover { background: #16a34a; }
+    .btn-wa-checkout svg { width: 15px; height: 15px; fill: currentColor; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 28px;
+      background: var(--surface-2);
+      border: 1px solid var(--gold);
+      padding: 13px 20px;
+      font-size: 0.76rem;
+      letter-spacing: 1px;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity .35s var(--ease), transform .35s var(--ease);
+      max-width: 280px;
+      line-height: 1.5;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── FOOTER ── */
+    footer { background: #050306; padding: 72px 4% 0; border-top: 1px solid var(--border-dim); }
+    .footer-top {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr 1.2fr;
+      gap: 48px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--border-dim);
+    }
+    .footer-logo { font-family: var(--ff-display); font-size: 2.1rem; letter-spacing: 6px; margin-bottom: 14px; }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+    .footer-tagline { font-family: var(--ff-serif); font-style: italic; color: var(--text-muted); font-size: 0.97rem; margin-bottom: 26px; line-height: 1.65; }
+    .footer-contacts a {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.78rem; color: var(--text-muted);
+      margin-bottom: 10px; transition: color .3s; letter-spacing: 0.5px;
+    }
+    .footer-contacts a:hover { color: var(--gold); }
+    .footer-col-title { font-size: 0.6rem; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; padding-bottom: 11px; border-bottom: 1px solid var(--border-dim); }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul a { font-family: var(--ff-serif); font-size: 0.93rem; color: var(--text-muted); transition: color .3s, padding-left .3s; display: block; }
+    .footer-col ul a:hover { color: var(--gold); padding-left: 5px; }
+    .footer-wa-box { background: var(--surface); border: 1px solid var(--border); padding: 22px 20px; }
+    .footer-wa-title { font-size: 0.63rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 11px; }
+    .footer-wa-num { font-family: var(--ff-serif); font-size: 1.05rem; margin-bottom: 14px; color: var(--text); }
+    .footer-wa-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: #22c55e; color: #fff; padding: 10px 16px;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: background .3s;
+    }
+    .footer-wa-btn:hover { background: #16a34a; }
+    .footer-wa-btn svg { width: 14px; height: 14px; fill: currentColor; }
+    .footer-bottom { max-width: 1440px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+    .footer-copy { font-size: 0.66rem; letter-spacing: 2px; color: var(--text-faint); }
+    .footer-craft { font-family: var(--ff-serif); font-style: italic; font-size: 0.8rem; color: var(--text-faint); }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .75s var(--ease), transform .75s var(--ease); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+    .reveal-d4 { transition-delay: .4s; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS — FULLY TUNED
+    ══════════════════════════════════════════ */
+
+    /* Large desktop tweak */
+    @media (max-width: 1300px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    /* Tablet landscape */
+    @media (max-width: 1024px) {
+      :root { --nav-h: 64px; }
+      .nav { padding: 0 5%; }
+      .hero-inner { gap: 40px; padding: 48px 5% 48px; }
+      .hero-left { padding-right: 28px; }
+      .hero-frame { max-width: 360px; }
+      .story-grid { gap: 48px; }
+    }
+
+    /* Tablet portrait + large phones */
+    @media (max-width: 900px) {
+      :root {
+        --ann-h: 32px;
+        --nav-h: 60px;
+      }
+
+      /* Nav */
+      .nav { padding: 0 5%; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-logo { font-size: 1.7rem; letter-spacing: 4px; }
+
+      /* Hero — single column */
+      .hero {
+        padding-top: calc(var(--ann-h) + var(--nav-h));
+      }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 44px;
+        padding: 44px 5% 56px;
+        min-height: calc(100dvh - var(--ann-h) - var(--nav-h));
+        align-items: start;
+      }
+      .hero-left { padding-right: 0; order: 1; }
+      .hero-right { order: 2; justify-content: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-desc { margin-left: auto; margin-right: auto; max-width: 480px; }
+      .hero-btns { justify-content: center; }
+      .hero-stats { justify-content: center; flex-wrap: wrap; gap: 28px; }
+      .hero-frame { max-width: 340px; }
+      .hero-float-tag { display: none; }
+      .hero-frame::before, .hero-frame::after { display: none; }
+
+      /* Products */
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-card.tester {
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-card.tester .product-img-wrap { aspect-ratio: 16/9; max-height: 280px; }
+
+      /* Story */
+      .story-grid { grid-template-columns: 1fr; gap: 44px; }
+      .story-img-accent { display: none; }
+      .story-badge-box { display: none; }
+      .story-text { padding-left: 0; }
+
+      /* Notes */
+      .notes-inner { grid-template-columns: 1fr; }
+      .notes-left { padding: 56px 0; border-right: none; border-bottom: 1px solid var(--border-dim); }
+      .notes-right { padding: 56px 0; }
+      .notes-left .sec-eyebrow, .notes-left .sec-title { justify-content: center; text-align: center; }
+      .notes-left .gold-rule { margin: 14px auto 36px; }
+      .notes-tags { justify-content: center; }
+
+      /* Trust */
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+
+      /* Footer */
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+      /* Section padding */
+      .section { padding: 72px 5%; }
+      .order-section { padding: 72px 5%; }
+    }
+
+    /* Medium phones */
+    @media (max-width: 640px) {
+      :root {
+        --ann-h: 30px;
+        --nav-h: 58px;
+      }
+
+      .ann-bar { font-size: 0.58rem; letter-spacing: 1.8px; padding: 7px 12px; }
+
+      /* Nav */
+      .nav { padding: 0 5%; }
+      .nav-logo { font-size: 1.55rem; letter-spacing: 3.5px; }
+      .nav-cart-btn span:not(.cart-badge) { display: none; }
+      .mobile-drawer { width: 100%; padding: 88px 32px 56px; }
+
+      /* Hero */
+      .hero-title { font-size: 2.8rem; }
+      .hero-title .italic { font-size: 2rem; }
+      .hero-desc { font-size: 1rem; }
+      .hero-frame { max-width: 100%; }
+      .hero-btns { gap: 12px; }
+
+      /* Buttons full-width stacked on tiny screens */
+      .hero-btns .btn-primary,
+      .hero-btns .btn-wa { flex: 1 1 200px; justify-content: center; }
+
+      /* Products */
+      .products-grid { grid-template-columns: 1fr; }
+      .product-card.tester .product-img-wrap { aspect-ratio: 3/2; max-height: 220px; }
+
+      /* Trust */
+      .trust-grid { grid-template-columns: 1fr 1fr; }
+      .trust-item { padding: 28px 16px; }
+
+      /* Order box */
+      .order-box { padding: 44px 22px; }
+      .order-box::before { inset: 6px; }
+
+      /* Footer */
+      .footer-top { grid-template-columns: 1fr; gap: 30px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+
+      /* Cart + drawer full width */
+      .cart-drawer { width: 100%; }
+
+      /* Toast */
+      .toast { left: 14px; right: 14px; max-width: none; bottom: 20px; }
+
+      /* Section */
+      .section { padding: 60px 5%; }
+      .order-section { padding: 60px 5%; }
+      .sec-sub { margin-bottom: 40px; }
+    }
+
+    /* Small phones */
+    @media (max-width: 430px) {
+      :root {
+        --ann-h: 28px;
+        --nav-h: 54px;
+      }
+
+      .ann-bar { font-size: 0.54rem; letter-spacing: 1.5px; padding: 6px 10px; }
+
+      .nav { padding: 0 4%; }
+      .nav-logo { font-size: 1.45rem; letter-spacing: 3px; }
+
+      .hero-title { font-size: 2.4rem; }
+      .hero-title .italic { font-size: 1.75rem; }
+      .hero-desc { font-size: 0.95rem; }
+      .hero-stats .stat-num { font-size: 1.6rem; }
+
+      .hero-btns {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .hero-btns .btn-primary,
+      .hero-btns .btn-wa,
+      .hero-btns .btn-secondary { justify-content: center; width: 100%; }
+
+      .products-grid { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: 1fr; }
+
+      .sec-title { font-size: 1.9rem; }
+      .gold-rule { margin-bottom: 36px; }
+
+      .order-box { padding: 36px 18px; }
+      .order-title { font-size: 1.9rem; }
+      .order-body { font-size: 0.95rem; }
+
+      .mobile-drawer { padding: 80px 26px 48px; }
+      .mobile-drawer a { font-size: 1.35rem; padding: 18px 0; }
+
+      .footer-top { padding-bottom: 40px; }
+      .footer-logo { font-size: 1.8rem; }
+
+      .wheel-container { width: 230px; height: 230px; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 360px) {
+      :root { --nav-h: 52px; }
+      .nav-logo { font-size: 1.35rem; letter-spacing: 2.5px; }
+      .hero-title { font-size: 2.1rem; }
+      .hero-title .italic { font-size: 1.55rem; }
+      .trust-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Ensure announcement bar never breaks layout */
+    @media (max-width: 480px) {
+      .ann-bar {
+        font-size: 0.56rem;
+        letter-spacing: 1.6px;
+      }
+      /* Shorten the text via CSS trick — handled in HTML with responsive text */
+    }
+  </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+  <!-- Custom Cursor -->
+  <div class="c-dot" id="cDot"></div>
+  <div class="c-ring" id="cRing"></div>
 
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <!-- Overlays -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 
-<div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header">
-    <h2>Your Selection</h2>
-    <button class="cart-close" onclick="closeCart()" aria-label="Close Cart">×</button>
-  </div>
-  <div class="cart-items-container">
-    <div class="cart-items" id="cartItems">
-      <div class="cart-empty" id="cartEmpty">
+  <!-- ═══════════════════════════════════
+       CART DRAWER
+  ═══════════════════════════════════ -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-head">
+      <div class="cart-head-title">Your Selection</div>
+      <button class="cart-close-btn" onclick="closeCart()" aria-label="Close cart">×</button>
+    </div>
+    <div class="cart-body">
+      <div id="cartEmpty" class="cart-empty">
         Your cart is empty.<br>
-        <span class="discover-scents">— discover our scents —</span>
+        <em>— discover our scents —</em>
       </div>
+      <div id="cartItems"></div>
     </div>
-  </div>
-  <div class="cart-footer">
-    <div class="cart-total">
-      <span>Total</span>
-      <span id="cartTotal">Rs. 0</span>
-    </div>
-    <button class="btn-checkout" onclick="checkoutWhatsApp()">
-      Order via WhatsApp
-    </button>
-    <button class="btn-checkout-wa" onclick="checkoutWhatsApp()">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Chat to Order
-    </button>
-  </div>
-</div>
-
-<nav>
-  <a href="#" class="nav-logo">Miss <span>Rose</span></a>
-  <ul class="nav-links">
-    <li><a href="#products">Collection</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#order">Order</a></li>
-  </ul>
-  <div class="nav-cart" onclick="openCart()">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-    <span>Cart</span>
-    <span class="cart-count" id="cartCount" style="display:none">0</span>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-noise"></div>
-  <div class="hero-ornament">Rose</div>
-  
-  <div class="hero-container">
-    <div class="hero-content">
-      <p class="hero-eyebrow">✦ Luxury Fragrances — Pakistan</p>
-      <h1 class="hero-title">
-        <em>Wear</em> your<br>
-        <span class="gold-word">Passion.</span><br>
-        Own your<br>
-        <em>Scent.</em>
-      </h1>
-      <p class="hero-desc">
-        Four signature fragrances crafted for the woman who refuses to be forgotten. Bold. Sensual. Unforgettable.
-      </p>
-      <div class="hero-ctas">
-        <a href="#products" class="btn-primary">Shop Collection</a>
-        <a href="#order" class="btn-ghost">Order via WhatsApp →</a>
+    <div class="cart-foot">
+      <div class="cart-total-row">
+        <span class="ct-label">Order Total</span>
+        <span class="ct-amount" id="cartTotal">Rs. 0</span>
       </div>
+      <button class="btn-checkout" onclick="checkoutWA()">Order via WhatsApp</button>
+      <button class="btn-wa-checkout" onclick="checkoutWA()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat to Order
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       MOBILE DRAWER
+  ═══════════════════════════════════ -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="#products" onclick="closeDrawer()">Collection <span>Shop</span></a>
+    <a href="#about" onclick="closeDrawer()">Our Story <span>Brand</span></a>
+    <a href="#notes" onclick="closeDrawer()">Fragrance Notes <span>Craft</span></a>
+    <a href="#order" onclick="closeDrawer()">Order Now <span>WhatsApp</span></a>
+    <div class="mobile-drawer-contact">
+      <p>Contact Us</p>
+      <a href="https://wa.me/923330441552" target="_blank">+92 333 0441552</a>
+      <a href="mailto:smhb0333@gmail.com">smhb0333@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       ANNOUNCEMENT BAR
+  ═══════════════════════════════════ -->
+  <div class="ann-bar" id="annBar">
+    <span class="ann-full">✦ Free Delivery Across Karachi · Order via WhatsApp · Premium Quality Guaranteed ✦</span>
+    <span class="ann-short" style="display:none;">✦ Free Delivery · WhatsApp Orders ✦</span>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════ -->
+  <nav class="nav" id="mainNav">
+    <a href="#" class="nav-logo">SHB<sup>®</sup></a>
+
+    <div class="nav-links">
+      <a href="#products">Collection</a>
+      <a href="#about">Our Story</a>
+      <a href="#notes">Notes</a>
+      <a href="#order">Order</a>
     </div>
 
-    <div class="hero-visual">
-      <div class="hero-bottle">
-        <svg class="bottle-svg" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="bottleGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#1a0c14"/>
-              <stop offset="50%" stop-color="#2a1020"/>
-              <stop offset="100%" stop-color="#0d0709"/>
-            </linearGradient>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#c9a84c"/>
-              <stop offset="50%" stop-color="#e8c96b"/>
-              <stop offset="100%" stop-color="#c9a84c"/>
-            </linearGradient>
-            <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
-              <stop offset="30%" stop-color="rgba(255,255,255,0.08)"/>
-              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <rect x="60" y="160" width="180" height="300" rx="12" fill="url(#bottleGrad)" stroke="#c9a84c" stroke-width="0.5" opacity="0.9"/>
-          <rect x="60" y="160" width="180" height="300" rx="12" fill="url(#shineGrad)" opacity="0.5"/>
-          <rect x="105" y="100" width="90" height="70" rx="4" fill="url(#bottleGrad)" stroke="#c9a84c" stroke-width="0.5"/>
-          <rect x="95" y="60" width="110" height="50" rx="8" fill="url(#goldGrad)"/>
-          <rect x="60" y="160" width="180" height="12" fill="url(#goldGrad)" opacity="0.8"/>
-          <rect x="60" y="432" width="180" height="10" fill="url(#goldGrad)" opacity="0.6"/>
-          <rect x="80" y="220" width="140" height="160" rx="4" fill="rgba(245,237,228,0.04)" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
-          <text x="150" y="285" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="22" fill="#c9a84c" font-style="italic">Miss</text>
-          <text x="150" y="312" text-anchor="middle" font-family="'Cinzel', Times, serif" font-size="14" fill="#c9a84c" letter-spacing="6">ROSE</text>
-          <text x="150" y="342" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="11" fill="rgba(201,168,76,0.5)" letter-spacing="3" font-style="italic">Perfume</text>
-          <ellipse cx="150" cy="460" rx="80" ry="15" fill="#b5214e" opacity="0.2" filter="url(#glow)"/>
+    <div class="nav-right">
+      <div class="nav-cart-btn" onclick="openCart()" role="button" tabindex="0" aria-label="Open cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
         </svg>
+        <span>Cart</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </div>
+      <div class="hamburger" id="hamburger" onclick="toggleDrawer()" role="button" tabindex="0" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════
+       HERO
+  ═══════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-noise"></div>
+    <div class="hero-gradient"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span>Premium Perfumery — Karachi</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="ghost">Scents</span>
+          <span class="accent">That Define</span>
+          <span class="italic">You.</span>
+        </h1>
+        <p class="hero-desc">
+          Four masterfully curated signature fragrances, crafted to command presence, radiate elegance, and leave an unforgettable impression.
+        </p>
+        <div class="hero-btns">
+          <a href="#products" class="btn-primary">Explore Collection</a>
+          <a href="#order" class="btn-wa">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order via WhatsApp
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">4</div>
+            <div class="stat-lbl">Signature Scents</div>
+          </div>
+          <div>
+            <div class="stat-num">50ml</div>
+            <div class="stat-lbl">Eau de Parfum</div>
+          </div>
+          <div>
+            <div class="stat-num">Free</div>
+            <div class="stat-lbl">Karachi Delivery</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-frame">
+          <img class="hero-img" src="hero-banner-img.jpeg" alt="SHB Fragrances Collection" onerror="this.style.background='linear-gradient(135deg,#1a1620,#2a2030)';this.style.minHeight='420px'">
+          <div class="hero-float-tag">
+            <div class="hft-label">New Collection</div>
+            <div class="hft-text">SHB 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       MARQUEE
+  ═══════════════════════════════════ -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item">Free Delivery Karachi <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Premium Quality Guaranteed <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Long Lasting Formulation <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Order via WhatsApp <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Luxury in Every Drop <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">SHB Fragrances <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">50ML Eau de Parfum <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Karachi, Pakistan <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Free Delivery Karachi <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Premium Quality Guaranteed <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Long Lasting Formulation <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Order via WhatsApp <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Luxury in Every Drop <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">SHB Fragrances <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">50ML Eau de Parfum <span class="marquee-sep">✦</span></div>
+      <div class="marquee-item">Karachi, Pakistan <span class="marquee-sep">✦</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       PRODUCTS
+  ═══════════════════════════════════ -->
+  <section class="section products-section" id="products">
+    <div class="sec-inner">
+      <div class="sec-eyebrow reveal">
+        <div class="sec-eyebrow-line"></div>
+        <span>The Collection</span>
+        <div class="sec-eyebrow-line r"></div>
+      </div>
+      <h2 class="sec-title reveal reveal-d1">Five <em>Signatures</em>, One Identity.</h2>
+      <div class="gold-rule reveal reveal-d2"></div>
+      <p class="sec-sub reveal reveal-d2">Each fragrance is an expression of power, elegance, and raw magnetism — curated for those who refuse to go unnoticed.</p>
+
+      <div class="products-grid">
+        <!-- SHB Allure -->
+        <div class="product-card reveal" onclick="addToCart('SHB Allure', 1499)">
+          <div class="product-img-wrap">
+            <div class="product-badge badge-gold">Best Seller</div>
+            <img src="SB Allure.jpeg" alt="SHB Allure" onerror="this.parentElement.style.background='linear-gradient(160deg,#0d2018,#0a0b15)'">
+            <div class="product-overlay">
+              <button class="product-quick" onclick="event.stopPropagation(); addToCart('SHB Allure', 1499)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eau de Parfum · 50ML</div>
+            <div class="product-name">SHB Allure</div>
+            <p class="product-desc">An enigmatic blend with deep emerald teal undertones. Sharp, sophisticated, and deeply mesmerizing for high-status settings.</p>
+            <div class="product-footer">
+              <div class="product-price">Rs. 1,499</div>
+              <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('SHB Allure', 1499)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHB Bright Crystal -->
+        <div class="product-card reveal reveal-d1" onclick="addToCart('SHB Bright Crystal', 1499)">
+          <div class="product-img-wrap">
+            <div class="product-badge badge-outline">Opulent</div>
+            <img src="SB Bright Crystal.jpeg" alt="SHB Bright Crystal" onerror="this.parentElement.style.background='linear-gradient(160deg,#1a0a0a,#200e18)'">
+            <div class="product-overlay">
+              <button class="product-quick" onclick="event.stopPropagation(); addToCart('SHB Bright Crystal', 1499)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eau de Parfum · 50ML</div>
+            <div class="product-name">SHB Bright Crystal</div>
+            <p class="product-desc">Framed by fresh crimson luxury roses and heavy splashes of water. Vibrant, pure, radiant, and undeniably rich.</p>
+            <div class="product-footer">
+              <div class="product-price">Rs. 1,499</div>
+              <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('SHB Bright Crystal', 1499)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHB Gucci Flora -->
+        <div class="product-card reveal reveal-d2" onclick="addToCart('SHB Gucci Flora', 1499)">
+          <div class="product-img-wrap">
+            <div class="product-badge badge-dark">Trending</div>
+            <img src="SB Gucci Flora.jpeg" alt="SHB Gucci Flora" onerror="this.parentElement.style.background='linear-gradient(160deg,#1a180a,#0f1a0a)'">
+            <div class="product-overlay">
+              <button class="product-quick" onclick="event.stopPropagation(); addToCart('SHB Gucci Flora', 1499)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eau de Parfum · 50ML</div>
+            <div class="product-name">SHB Gucci Flora</div>
+            <p class="product-desc">A beautiful contrast of bright yellow blossoms and soft white satin. Elegant, delicate, and timeless floral mastery.</p>
+            <div class="product-footer">
+              <div class="product-price">Rs. 1,499</div>
+              <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('SHB Gucci Flora', 1499)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHB Janan Sport -->
+        <div class="product-card reveal reveal-d3" onclick="addToCart('SHB Janan Sport', 1499)">
+          <div class="product-img-wrap">
+            <div class="product-badge badge-new">New Release</div>
+            <img src="SB Janan Sport.jpeg" alt="SHB Janan Sport" onerror="this.parentElement.style.background='linear-gradient(160deg,#050510,#0a0812)'">
+            <div class="product-overlay">
+              <button class="product-quick" onclick="event.stopPropagation(); addToCart('SHB Janan Sport', 1499)">Add to Cart</button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-cat">Eau de Parfum · 50ML</div>
+            <div class="product-name">SHB Janan Sport</div>
+            <p class="product-desc">Set against an obsidian deep black water splash layout. Dynamic, bold, masculine, energetic, and completely captivating.</p>
+            <div class="product-footer">
+              <div class="product-price">Rs. 1,499</div>
+              <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('SHB Janan Sport', 1499)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tester Box -->
+      <div class="products-row-2">
+        <div class="product-card tester reveal" onclick="addToCart('SHB Tester Box (All 4)', 4999)">
+          <div class="product-img-wrap">
+            <div class="product-badge badge-gold">Exclusive Set</div>
+            <img src="hero-banner-img.jpeg" alt="SHB Tester Box" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a1020,#0f0d18)'">
+            <div class="product-overlay">
+              <button class="product-quick" onclick="event.stopPropagation(); addToCart('SHB Tester Box (All 4)', 4999)">Add Tester Box to Cart</button>
+            </div>
+          </div>
+          <div class="tester-content">
+            <div class="product-cat">Ultimate Discovery Set · 4 × 50ML</div>
+            <div class="product-name" style="font-size: 1.75rem; letter-spacing: 2px; margin-bottom: 12px;">SHB Tester Box</div>
+            <div class="tester-badge-row">
+              <span class="mini-badge">SHB Allure</span>
+              <span class="mini-badge">Bright Crystal</span>
+              <span class="mini-badge">Gucci Flora</span>
+              <span class="mini-badge">Janan Sport</span>
+            </div>
+            <div class="tester-note">✦ Experience all four signature scents before committing to your favourite. The ideal gift for those with exquisite taste.</div>
+            <p class="tester-desc">The complete SHB experience in one luxurious set. All four Eau de Parfum bottles, beautifully packaged in our signature gift presentation. Perfect for gifting or personal discovery.</p>
+            <div class="product-footer" style="margin-top: auto;">
+              <div>
+                <div style="font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px;">Value Set Price</div>
+                <div class="product-price" style="font-size: 1.45rem;">Rs. 4,999</div>
+                <div style="font-size: 0.68rem; color: var(--text-faint); margin-top: 3px;">Save Rs. 997 vs. individual</div>
+              </div>
+              <button class="btn-add-cart" style="padding: 12px 24px;" onclick="event.stopPropagation(); addToCart('SHB Tester Box (All 4)', 4999)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       TRUST STRIP
+  ═══════════════════════════════════ -->
+  <div class="trust-strip">
+    <div class="trust-grid">
+      <div class="trust-item reveal">
+        <div class="trust-icon">🚀</div>
+        <div class="trust-title">Free Delivery</div>
+        <div class="trust-desc">Complimentary delivery across all of Karachi. Order today, receive tomorrow.</div>
+      </div>
+      <div class="trust-item reveal reveal-d1">
+        <div class="trust-icon">💎</div>
+        <div class="trust-title">Premium Quality</div>
+        <div class="trust-desc">High-concentration Eau de Parfum formula with premium imported fragrance oils.</div>
+      </div>
+      <div class="trust-item reveal reveal-d2">
+        <div class="trust-icon">🎁</div>
+        <div class="trust-title">Luxury Packaging</div>
+        <div class="trust-desc">Every order arrives in our signature luxury packaging, perfect for gifting.</div>
+      </div>
+      <div class="trust-item reveal reveal-d3">
+        <div class="trust-icon">⚡</div>
+        <div class="trust-title">Instant Checkout</div>
+        <div class="trust-desc">Order directly via WhatsApp for the fastest, most seamless experience.</div>
       </div>
     </div>
   </div>
-</section>
 
-<div class="marquee-band">
-  <div class="marquee-inner">
-    <span>Free Delivery Karachi</span><span class="dot">✦</span>
-    <span>4 Signature Scents</span><span class="dot">✦</span>
-    <span>Tester Box Available</span><span class="dot">✦</span>
-    <span>Order via WhatsApp</span><span class="dot">✦</span>
-    <span>Luxury Fragrances</span><span class="dot">✦</span>
-    <span>Miss Rose Fashion</span><span class="dot">✦</span>
-    <span>Free Delivery Karachi</span><span class="dot">✦</span>
-    <span>4 Signature Scents</span><span class="dot">✦</span>
-    <span>Tester Box Available</span><span class="dot">✦</span>
-    <span>Order via WhatsApp</span><span class="dot">✦</span>
-    <span>Luxury Fragrances</span><span class="dot">✦</span>
-    <span>Miss Rose Fashion</span><span class="dot">✦</span>
-  </div>
-</div>
-
-<section class="products-section" id="products">
-  <div class="section-label">✦ The Collection</div>
-  <h2 class="section-title">Four <em>Signatures</em>,<br>One Legacy.</h2>
-  <div class="divider"></div>
-
-  <div class="products-grid">
-    <div class="product-card featured" onclick="addToCart('Miss Rose Tester Box', 2999)">
-      <div class="product-img-wrap">
-        <div class="product-overlay"></div>
-        <div class="product-badge badge-set">Complete Set</div>
-        <div class="css-bottle-art set-render">
-          <div class="mini-btl btl-1"></div>
-          <div class="mini-btl btl-2"></div>
-          <div class="mini-btl btl-3"></div>
-          <div class="mini-btl btl-4"></div>
+  <!-- ═══════════════════════════════════
+       ABOUT / STORY
+  ═══════════════════════════════════ -->
+  <section class="section" id="about">
+    <div class="sec-inner">
+      <div class="story-grid">
+        <div class="story-visual reveal">
+          <img class="story-img-main" src="SB Allure.jpeg" alt="SHB Fragrances" onerror="this.style.background='linear-gradient(135deg,#1a1620,#0f0d18)';this.style.minHeight='400px'">
+          <img class="story-img-accent" src="SB Bright Crystal.jpeg" alt="SHB" onerror="this.style.display='none'">
+          <div class="story-badge-box">
+            <div class="sbb-num">5★</div>
+            <div class="sbb-lbl">Luxury Grade</div>
+          </div>
         </div>
-      </div>
-      <div class="product-info">
-        <p class="product-category">Tester Collection</p>
-        <h3 class="product-name">Miss Rose — Tester Box</h3>
-        <p class="product-desc">Experience all four signatures before you commit. The complete tester box — four miniature masterpieces in one luxurious set. The perfect introduction to the world of Miss Rose.</p>
-        <div class="product-footer">
-          <div class="product-price">Rs. 2,999 <small>/ set of 4</small></div>
-          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Miss Rose Tester Box', 2999)">Add to Cart</button>
+        <div class="story-text reveal reveal-d2">
+          <div class="sec-eyebrow" style="justify-content: flex-start;">
+            <div class="sec-eyebrow-line"></div>
+            <span>Our Heritage</span>
+          </div>
+          <h2 class="sec-title" style="text-align: left; font-size: clamp(1.75rem, 3.5vw, 3rem);">Be Remembered.<br><em>Be You.</em></h2>
+          <div class="gold-rule" style="margin-left: 0;"></div>
+          <p class="story-body">
+            SHB was born from a singular belief: that every person deserves a scent that commands attention, radiates confidence, and becomes their second identity. We translate prestige, power, and sensory artistry into every bottle.
+          </p>
+          <div class="pillars">
+            <div class="pillar">
+              <div class="pillar-icon">✦</div>
+              <div>
+                <div class="pillar-ttl">Premium Ingredients</div>
+                <div class="pillar-txt">Curated, high-grade imported fragrance oils selected for longevity and richness.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">✦</div>
+              <div>
+                <div class="pillar-ttl">Long-Lasting Formula</div>
+                <div class="pillar-txt">High-concentration Eau de Parfum designed for powerful projection and lasting sillage.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">✦</div>
+              <div>
+                <div class="pillar-ttl">Luxury Presentation</div>
+                <div class="pillar-txt">Signature luxury packaging that turns every purchase into a gifting moment.</div>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">✦</div>
+              <div>
+                <div class="pillar-ttl">Karachi Delivery</div>
+                <div class="pillar-txt">Complimentary same-day delivery across all areas of Karachi.</div>
+              </div>
+            </div>
+          </div>
+          <a href="#products" class="btn-primary">Shop the Collection</a>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="product-card" onclick="addToCart('Velvet Noir', 1499)">
-      <div class="product-img-wrap">
-        <div class="product-overlay"></div>
-        <div class="product-badge badge-new">New</div>
-        <div class="css-bottle-art velvet-noir-render">
-          <div class="cap"></div>
-          <div class="neck"></div>
-          <div class="body"><span>I</span></div>
+  <!-- ═══════════════════════════════════
+       FRAGRANCE NOTES
+  ═══════════════════════════════════ -->
+  <div class="notes-section" id="notes">
+    <div class="notes-inner">
+      <div class="notes-left reveal">
+        <div class="sec-eyebrow">
+          <div class="sec-eyebrow-line"></div>
+          <span>Fragrance Notes</span>
+          <div class="sec-eyebrow-line r"></div>
+        </div>
+        <h2 class="sec-title">The Art of <em>Composition.</em></h2>
+        <div class="gold-rule"></div>
+        <p class="notes-body">
+          Every SHB fragrance is a carefully orchestrated symphony of top, heart, and base notes — each layer revealing itself over time, creating a living, breathing olfactory experience. From bright opening bursts to deep, lingering base notes, every moment tells a story.
+        </p>
+        <div class="notes-tags">
+          <span class="note-tag">Premium Musk</span>
+          <span class="note-tag">Fresh Florals</span>
+          <span class="note-tag">Sandalwood</span>
+          <span class="note-tag">Rich Amber</span>
+          <span class="note-tag">Oud</span>
+          <span class="note-tag">Bergamot</span>
+          <span class="note-tag">Jasmine</span>
+          <span class="note-tag">Vetiver</span>
+          <span class="note-tag">Cedar</span>
+          <span class="note-tag">Patchouli</span>
         </div>
       </div>
-      <div class="product-info">
-        <p class="product-category">Eau de Parfum · No. 01</p>
-        <h3 class="product-name">Velvet Noir</h3>
-        <p class="product-desc">Dark roses, oud, and smoldering amber. A statement for those who enter a room and own it.</p>
-        <div class="product-footer">
-          <div class="product-price">Rs. 1,499</div>
-          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Velvet Noir', 1499)">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" onclick="addToCart('Rose Mystère', 1499)">
-      <div class="product-img-wrap">
-        <div class="product-overlay"></div>
-        <div class="css-bottle-art rose-mystere-render">
-          <div class="cap"></div>
-          <div class="neck"></div>
-          <div class="body"><span>II</span></div>
-        </div>
-      </div>
-      <div class="product-info">
-        <p class="product-category">Eau de Parfum · No. 02</p>
-        <h3 class="product-name">Rose Mystère</h3>
-        <p class="product-desc">Bulgarian rose and sandalwood with a whisper of vanilla. Effortlessly feminine, endlessly intriguing.</p>
-        <div class="product-footer">
-          <div class="product-price">Rs. 1,499</div>
-          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Rose Mystère', 1499)">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" onclick="addToCart('Gold Elixir', 1499)">
-      <div class="product-img-wrap">
-        <div class="product-overlay"></div>
-        <div class="css-bottle-art gold-elixir-render">
-          <div class="cap"></div>
-          <div class="neck"></div>
-          <div class="body"><span>III</span></div>
-        </div>
-      </div>
-      <div class="product-info">
-        <p class="product-category">Eau de Parfum · No. 03</p>
-        <h3 class="product-name">Gold Elixir</h3>
-        <p class="product-desc">Saffron, warm musk, and a heart of jasmine. Opulent, golden, unforgettable.</p>
-        <div class="product-footer">
-          <div class="product-price">Rs. 1,499</div>
-          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Gold Elixir', 1499)">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" onclick="addToCart('Scarlet Dusk', 1499)">
-      <div class="product-img-wrap">
-        <div class="product-overlay"></div>
-        <div class="css-bottle-art scarlet-dusk-render">
-          <div class="cap"></div>
-          <div class="neck"></div>
-          <div class="body"><span>IV</span></div>
-        </div>
-      </div>
-      <div class="product-info">
-        <p class="product-category">Eau de Parfum · No. 04</p>
-        <h3 class="product-name">Scarlet Dusk</h3>
-        <p class="product-desc">Bergamot, wild raspberry, and a deep vetiver base. For evenings that last until dawn.</p>
-        <div class="product-footer">
-          <div class="product-price">Rs. 1,499</div>
-          <button class="btn-add" onclick="event.stopPropagation(); addToCart('Scarlet Dusk', 1499)">Add to Cart</button>
+      <div class="notes-right reveal reveal-d2">
+        <div class="wheel-container">
+          <div class="wheel-svg-wrap">
+            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="150" cy="150" r="140" stroke-dasharray="5 15"/>
+              <circle cx="150" cy="150" r="100" stroke-dasharray="3 10"/>
+              <circle cx="150" cy="150" r="60" stroke-dasharray="2 8"/>
+            </svg>
+          </div>
+          <div class="float-pills">
+            <div class="pill" style="top:10%; left:50%;">Top Notes</div>
+            <div class="pill" style="top:50%; left:95%;">Heart Notes</div>
+            <div class="pill" style="top:85%; left:60%;">Base Notes</div>
+            <div class="pill" style="top:70%; left:5%;">Dry Down</div>
+            <div class="pill" style="top:25%; left:5%;">Opening</div>
+          </div>
+          <div class="wheel-center">
+            <div class="wheel-brand">SHB</div>
+            <div class="wheel-sub">Fragrances</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<div class="notes-section" id="about">
-  <div class="notes-visual">
-    <div class="notes-circle">
-      <span class="note-tag">Rose &amp; Oud</span>
-      <span class="note-tag">Jasmine</span>
-      <span class="note-tag">Sandalwood</span>
-      <span class="note-tag">Amber</span>
-      <span class="note-tag">Saffron</span>
-      <div class="notes-center">
-        <div class="notes-center-title">Fragrance</div>
-        <div class="notes-center-text">Notes</div>
+  <!-- ═══════════════════════════════════
+       ORDER CTA
+  ═══════════════════════════════════ -->
+  <section class="section order-section" id="order">
+    <div class="order-box reveal">
+      <div class="sec-eyebrow" style="margin-bottom: 22px;">
+        <div class="sec-eyebrow-line"></div>
+        <span>Direct Checkout</span>
+        <div class="sec-eyebrow-line r"></div>
+      </div>
+      <h2 class="order-title">Order via <em style="font-family:var(--ff-serif);font-style:italic;color:var(--gold-light);">WhatsApp.</em></h2>
+      <p class="order-body">
+        Skip the complexity. Simply tap below, select your fragrances, and we dispatch within hours. The most direct path to luxury.
+      </p>
+      <a href="https://wa.me/923330441552?text=Hi%20SHB%20Fragrances!%20I%27d%20love%20to%20place%20an%20order%20from%20your%20premium%20collection." target="_blank" class="btn-wa" style="font-size: 0.7rem; padding: 17px 44px; display: inline-flex;">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat with Us on WhatsApp
+      </a>
+      <p class="order-note">
+        <a href="tel:+923330441552">+92 333 0441552</a> · Karachi, Pakistan · Quick Response Guaranteed
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">SHB<span>®</span></div>
+        <p class="footer-tagline">"Scents that define who you are.<br>Wear your identity. Be remembered."</p>
+        <div class="footer-contacts">
+          <a href="https://wa.me/923330441552" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            +92 333 0441552
+          </a>
+          <a href="mailto:smhb0333@gmail.com">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            smhb0333@gmail.com
+          </a>
+          <a href="#">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Karachi, Pakistan
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Collection</div>
+        <ul>
+          <li><a href="#products">SHB Allure</a></li>
+          <li><a href="#products">SHB Bright Crystal</a></li>
+          <li><a href="#products">SHB Gucci Flora</a></li>
+          <li><a href="#products">SHB Janan Sport</a></li>
+          <li><a href="#products">SHB Tester Box</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Information</div>
+        <ul>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#notes">Fragrance Notes</a></li>
+          <li><a href="#order">How to Order</a></li>
+          <li><a href="#">Delivery Policy</a></li>
+          <li><a href="#">Return Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Order Direct</div>
+        <div class="footer-wa-box">
+          <div class="footer-wa-title">WhatsApp Orders</div>
+          <div class="footer-wa-num">+92 333 0441552</div>
+          <a href="https://wa.me/923330441552?text=Hi%20SHB%20Fragrances!%20I%27d%20like%20to%20place%20an%20order." target="_blank" class="footer-wa-btn">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order Now
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="notes-text">
-    <span class="section-label">✦ Our Story</span>
-    <h2 class="section-title">Born for the <em>Bold</em>.</h2>
-    <div class="divider"></div>
-    <p class="story-paragraph">
-      Miss Rose was created for women who express themselves through scent. Every bottle is a declaration — of confidence, of elegance, of passion unapologetically worn.
-    </p>
-    <ul class="notes-list">
-      <li>Curated luxury fragrances</li>
-      <li>Long-lasting Eau de Parfum formula</li>
-      <li>Delivery across Karachi</li>
-      <li>Try all four with our Tester Box</li>
-      <li>Order direct via WhatsApp — fast &amp; easy</li>
-    </ul>
-  </div>
-</div>
 
-<section class="wa-section" id="order">
-  <span class="section-label">✦ Easy Ordering</span>
-  <h2 class="section-title">Order in <em>Seconds.</em></h2>
-  <p class="wa-desc">
-    No forms. No waiting. Just message us on WhatsApp and we'll have your fragrance at your door.
-  </p>
-  <a href="https://wa.me/923330441552?text=Hi%20Miss%20Rose!%20I%27d%20like%20to%20order%20a%20perfume%20from%20your%20collection." target="_blank" class="btn-whatsapp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    Chat with Us on WhatsApp
-  </a>
-  <p class="wa-note">92 333 0441552 · Karachi, Pakistan · Responds within minutes</p>
-</section>
-
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="footer-logo">Miss <span>Rose</span></div>
-      <p class="footer-tagline">"Wear your passion. Own your scent."</p>
-      <div class="footer-contact">
-        <a href="https://wa.me/923330441552" target="_blank">WhatsApp: 92 333 0441552</a>
-        <a href="mailto:smhb0333@gmail.com">smhb0333@gmail.com</a>
-        <a href="#">Karachi, Pakistan</a>
-      </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 SHB Fragrances · All rights reserved.</span>
+      <span class="footer-craft">Crafted with distinction in Karachi, Pakistan</span>
     </div>
-    <div class="footer-col">
-      <h4>Collection</h4>
-      <ul>
-        <li><a href="#products">Velvet Noir</a></li>
-        <li><a href="#products">Rose Mystère</a></li>
-        <li><a href="#products">Gold Elixir</a></li>
-        <li><a href="#products">Scarlet Dusk</a></li>
-        <li><a href="#products">Tester Box</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Info</h4>
-      <ul>
-        <li><a href="#about">Our Story</a></li>
-        <li><a href="#order">Order via WhatsApp</a></li>
-        <li><a href="#">Delivery Info</a></li>
-        <li><a href="#">Returns Policy</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 missrosefashion.com — All rights reserved.</span>
-    <span>Crafted with passion in Karachi</span>
-  </div>
-</footer>
+  </footer>
 
-<div class="toast" id="toast"></div>
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
 
-<script>
-  // Hardware-Accelerated Responsive Cursors
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  let hasMouse = false;
-  
-  document.addEventListener('mousemove', e => { 
-    if(!hasMouse) {
-      hasMouse = true;
-      if(window.innerWidth > 992) {
-        cursor.style.display = 'block';
-        ring.style.display = 'block';
+  <!-- ═══════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════ -->
+  <script>
+    // ── ANNOUNCEMENT BAR RESPONSIVE TEXT ──
+    function updateAnnText() {
+      const full  = document.querySelector('.ann-full');
+      const short = document.querySelector('.ann-short');
+      if (window.innerWidth < 520) {
+        full.style.display  = 'none';
+        short.style.display = 'inline';
+      } else {
+        full.style.display  = 'inline';
+        short.style.display = 'none';
       }
     }
-    mx = e.clientX; 
-    my = e.clientY; 
-    cursor.style.left = mx + 'px'; 
-    cursor.style.top = my + 'px'; 
-  });
-  
-  (function animRing() { 
-    rx += (mx - rx) * 0.12; 
-    ry += (my - ry) * 0.12; 
-    ring.style.left = rx + 'px'; 
-    ring.style.top = ry + 'px'; 
-    requestAnimationFrame(animRing); 
-  })();
+    updateAnnText();
+    window.addEventListener('resize', updateAnnText, { passive: true });
 
-  // Interaction Hover Scaling (Desktop only)
-  document.querySelectorAll('a, button, .product-card, .nav-cart, .qty-btn, .cart-item-remove').forEach(elem => {
-    elem.addEventListener('mouseenter', () => {
-      if(window.innerWidth > 992) {
-        cursor.style.transform = 'translate(-50%,-50%) scale(1.5)';
-        ring.style.transform = 'translate(-50%,-50%) scale(0.6)';
-        ring.style.borderColor = 'var(--rose-light)';
-      }
+    // ── CURSOR ──
+    const dot  = document.getElementById('cDot');
+    const ring = document.getElementById('cRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
     });
-    elem.addEventListener('mouseleave', () => {
-      if(window.innerWidth > 992) {
-        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-        ring.style.transform = 'translate(-50%,-50%) scale(1)';
-        ring.style.borderColor = 'rgba(201,168,76,0.5)';
-      }
+
+    (function animRing() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+
+    document.querySelectorAll('a, button, [role="button"], .product-card, .note-tag, .trust-item').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
     });
-  });
 
-  // State Management Engine
-  let cart = [];
+    // ── NAV SCROLL ──
+    const nav    = document.getElementById('mainNav');
+    const annBar = document.getElementById('annBar');
 
-  // FIXED: Modifies item quantities correctly on consecutive clicks
-  function addToCart(name, price) {
-    const existing = cart.find(i => i.name === name);
-    if (existing) { 
-      existing.qty++; 
-    } else { 
-      cart.push({ name, price, qty: 1 }); 
+    function updateNav() {
+      const annH = annBar.offsetHeight;
+      nav.classList.toggle('scrolled', window.scrollY > annH + 10);
     }
-    updateCart();
-    showToast('<strong>' + name + '</strong> selection updated (' + (existing ? existing.qty : 1) + ')');
-    openCart();
-  }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    window.addEventListener('resize', updateNav, { passive: true });
 
-  function changeQty(name, delta) {
-    const item = cart.find(i => i.name === name);
-    if (item) {
+    // ── MOBILE DRAWER ──
+    const hamburger     = document.getElementById('hamburger');
+    const mobileDrawer  = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+
+    function toggleDrawer() {
+      const open = mobileDrawer.classList.toggle('open');
+      drawerOverlay.classList.toggle('open', open);
+      hamburger.classList.toggle('active', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      mobileDrawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+      hamburger.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // ── CART STATE ──
+    let cart = [];
+
+    const PRODUCTS = {
+      'SHB Allure':             { img: 'SB Allure.jpeg' },
+      'SHB Bright Crystal':     { img: 'SB Bright Crystal.jpeg' },
+      'SHB Gucci Flora':        { img: 'SB Gucci Flora.jpeg' },
+      'SHB Janan Sport':        { img: 'SB Janan Sport.jpeg' },
+      'SHB Tester Box (All 4)': { img: 'hero-banner-img.jpeg' },
+    };
+
+    function addToCart(name, price) {
+      const ex = cart.find(i => i.name === name);
+      if (ex) { ex.qty++; }
+      else     { cart.push({ name, price, qty: 1 }); }
+      renderCart();
+      showToast('<strong>' + name + '</strong> added to cart');
+      openCart();
+    }
+
+    function changeQty(name, delta) {
+      const item = cart.find(i => i.name === name);
+      if (!item) return;
       item.qty += delta;
-      if (item.qty <= 0) {
-        cart = cart.filter(i => i.name !== name);
-      }
-      updateCart();
+      if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+      renderCart();
     }
-  }
 
-  function removeFromCart(name) {
-    cart = cart.filter(i => i.name !== name);
-    updateCart();
-  }
+    function removeItem(name) {
+      cart = cart.filter(i => i.name !== name);
+      renderCart();
+    }
 
-  function updateCart() {
-    const count = cart.reduce((s, i) => s + i.qty, 0);
-    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    const countEl = document.getElementById('cartCount');
-    
-    countEl.textContent = count;
-    countEl.style.display = count > 0 ? 'flex' : 'none';
-    document.getElementById('cartTotal').textContent = 'Rs. ' + total.toLocaleString();
+    function renderCart() {
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const badge = document.getElementById('cartBadge');
+      const totEl = document.getElementById('cartTotal');
+      const empty = document.getElementById('cartEmpty');
+      const items = document.getElementById('cartItems');
 
-    const itemsEl = document.getElementById('cartItems');
-    const emptyEl = document.getElementById('cartEmpty');
-    
-    const currentItems = itemsEl.querySelectorAll('.cart-item');
-    currentItems.forEach(el => el.remove());
+      badge.textContent = count;
+      badge.classList.toggle('on', count > 0);
+      totEl.textContent = 'Rs. ' + total.toLocaleString();
+      items.innerHTML = '';
+      empty.style.display = cart.length ? 'none' : 'block';
 
-    if (cart.length === 0) {
-      emptyEl.style.display = 'block';
-    } else {
-      emptyEl.style.display = 'block'; 
-      emptyEl.style.setProperty('display', 'none', 'important'); 
-      
       cart.forEach(item => {
+        const p = PRODUCTS[item.name] || {};
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
-          <div class="cart-item-img">${item.name[0]}</div>
-          <div class="cart-item-info">
+          <img class="cart-item-img" src="${p.img || ''}" alt="${item.name}" onerror="this.style.background='var(--surface-3)'">
+          <div class="cart-item-det">
             <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-price">Rs. ${(item.price * item.qty).toLocaleString()}</div>
-            <div class="cart-qty-controls">
-              <button class="qty-btn" onclick="changeQty('${item.name}', -1)">-</button>
-              <span class="qty-val">${item.qty}</span>
+            <div class="cart-item-unit">Eau de Parfum</div>
+            <div class="qty-row">
+              <button class="qty-btn" onclick="changeQty('${item.name}', -1)">−</button>
+              <span class="qty-num">${item.qty}</span>
               <button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button>
             </div>
           </div>
-          <button class="cart-item-remove" onclick="removeFromCart('${item.name}')" aria-label="Remove item">×</button>`;
-        itemsEl.appendChild(div);
+          <div class="cart-item-price">Rs. ${(item.price * item.qty).toLocaleString()}</div>
+          <button class="cart-remove" onclick="removeItem('${item.name}')" aria-label="Remove">×</button>`;
+        items.appendChild(div);
       });
     }
-  }
 
-  function openCart() {
-    document.getElementById('cartSidebar').classList.add('open');
-    document.getElementById('cartOverlay').classList.add('open');
-  }
-  
-  function closeCart() {
-    document.getElementById('cartSidebar').classList.remove('open');
-    document.getElementById('cartOverlay').classList.remove('open');
-  }
-
-  function checkoutWhatsApp() {
-    if (cart.length === 0) { 
-      showToast('Your selection is empty!'); 
-      return; 
+    function openCart() {
+      document.getElementById('cartDrawer').classList.add('open');
+      document.getElementById('cartOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
-    let msg = 'Hello Miss Rose! 🌹 I\'d like to order:\n\n';
-    cart.forEach(i => { 
-      msg += `• ${i.name} [Qty: ${i.qty}] — Rs. ${(i.price * i.qty).toLocaleString()}\n`; 
-    });
-    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    msg += `\nTotal Amount: Rs. ${total.toLocaleString()}\n\nPlease confirm my premium order from Karachi. Thank you!`;
-    window.open('https://wa.me/923330441552?text=' + encodeURIComponent(msg), '_blank');
-  }
+    function closeCart() {
+      document.getElementById('cartDrawer').classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-  let toastTimer;
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerHTML = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-  }
+    function checkoutWA() {
+      if (!cart.length) { showToast('Your cart is empty!'); return; }
+      let msg = 'Hello SHB Fragrances! 🌹 I\'d like to place an order:\n\n';
+      cart.forEach(i => {
+        msg += `• ${i.name} × ${i.qty} — Rs. ${(i.price * i.qty).toLocaleString()}\n`;
+      });
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      msg += `\nOrder Total: Rs. ${total.toLocaleString()}\n\nDelivery to: [please add your address]\n\nThank you!`;
+      window.open('https://wa.me/923330441552?text=' + encodeURIComponent(msg), '_blank');
+    }
 
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const targetId = a.getAttribute('href');
-      if(targetId === '#') return;
-      const target = document.querySelector(targetId);
-      if (target) { 
-        e.preventDefault(); 
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-      }
+    // ── TOAST ──
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerHTML = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ── SMOOTH SCROLL ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id === '#') return;
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          closeDrawer();
+          setTimeout(() => {
+            const offset = document.getElementById('mainNav').offsetHeight;
+            const top = target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }, 50);
+        }
+      });
     });
-  });
-</script>
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.10, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── KEYBOARD ACCESSIBILITY ──
+    document.querySelectorAll('[role="button"]').forEach(el => {
+      el.addEventListener('keypress', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+      });
+    });
+  </script>
 </body>
 </html>
